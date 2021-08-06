@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-icon [ngClass] = "{'active' :  userService.isLoggedIn}" name="alert-circle-outline"></ion-icon>
+
+  <ion-img class="logo center" src="/assets/images/logo.png"></ion-img>
+
+  <ion-item class="input center">
+    <ion-label position="floating">Floating Label</ion-label>
+    <ion-input [(ngModel)]="email"></ion-input>
+  </ion-item>
+
+  <ion-item class="input center">
+    <ion-label position="floating">Floating Label</ion-label>
+    <ion-input [(ngModel)]="password"></ion-input>
+  </ion-item>
+
+
+  <div class="center">
+    <ion-button (click)="onLoginClicked()">Log in</ion-button>
+  </div>
+
+</ion-content>
