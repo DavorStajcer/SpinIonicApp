@@ -1,7 +1,28 @@
 <ion-app>
+  <ion-menu side="end" menuId="first" contentId="main-content">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Start Menu</ion-title>
+      </ion-toolbar>
+
+
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item (click) = "closeMenu()" [routerLink]="['/web/dashboard']">Dashboard</ion-item>
+        <ion-item (click) = "closeMenu()" [routerLink]="['/web/menu']">Menu</ion-item>
+        <ion-item (click) = "closeMenu()" [routerLink]="['/web/newDish']">New dish</ion-item>
+        <ion-item *ngIf="userService.currentUser != null && userService.currentUser != undefined" (click) = "logUserOut()" [routerLink]="['']">Log out</ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
   
  
-  <ion-router-outlet>
-   
+  <ion-router-outlet id="main-content">
   </ion-router-outlet>
+  <ion-fab [hidden]="userService.currentUser == null || userService.currentUser == undefined" (click) = "openMenu()" vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="menu-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-app>

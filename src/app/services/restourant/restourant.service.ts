@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../user/user.service';
+import { User } from 'src/app/interfaces/user';
 
-export enum SignUpMode {
-  normal,
-  restaurant
-}
 
 
 @Injectable({

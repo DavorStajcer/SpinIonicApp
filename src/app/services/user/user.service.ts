@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RestourantService } from 'src/app/services/restourant/restourant.service';
+import { User } from 'src/app/interfaces/user';
+import { Router } from '@angular/router';
 
 
-export interface User {
-
-  name: string
-  companyId: number
-  userId: number
-  companyName: string
-  isAdmin: number
-}
 
 export enum AuthMode {
   logIn,
@@ -25,8 +19,9 @@ export enum AuthMode {
 export class UserService {
 
   isLoggedIn: boolean = false
-  isAsRestourant : boolean = false
+  isAsRestourant: boolean = false
   authMode: AuthMode = AuthMode.logIn
+  currentUser: User
 
   private _isSignUp: boolean = false;
   get isSignUp(): boolean {
@@ -39,7 +34,11 @@ export class UserService {
 
   url: string = "https://jupitermobiletest.jupiter-software.com:30081/jupitermobilex/gen/api/food"
 
-  constructor(private httpClient: HttpClient,private restaurantService : RestourantService) {
+  constructor(
+    private httpClient: HttpClient,
+    private restaurantService: RestourantService,
+    private router: Router
+  ) {
 
   }
 
@@ -53,13 +52,14 @@ export class UserService {
 
   changeAuthMode() {
     this.authMode == AuthMode.logIn ? this.authMode = AuthMode.signUp : this.authMode = AuthMode.logIn
+    if (this.authMode == AuthMode.logIn)
+      this.isAsRestourant = false
     console.log(this.authMode)
   }
 
 
 
   logIn(email: string, password: string) {
-    this.authMode = AuthMode.signUp
     console.log(`email -> ${email}`)
     console.log(`password -> ${password}`)
     let body = {
@@ -78,8 +78,17 @@ export class UserService {
     this.httpClient.post(this.url, body)
       .subscribe((response: Array<User>) => {
         console.log(`on Next, response -> ${response[0]}`)
-        if (response.length == 1)
+
+        if (response.length == 1) {
           this.isLoggedIn = true
+          this.currentUser = response[0]
+          this.router.navigate(
+            ['web/dashboard'], 
+            {
+            replaceUrl : true,
+          })
+        }
+
       }, error => {
         console.log("on error")
       }, () => {
@@ -87,7 +96,7 @@ export class UserService {
       })
   }
 
-  signUp(username: string, email: string, password: string,restourantName : string) {
+  signUp(username: string, email: string, password: string, restourantName: string) {
 
     let body = {
       "db": "Food",
@@ -105,15 +114,16 @@ export class UserService {
     }
 
     return this.httpClient.post(this.url, body)
-    .subscribe((res : any) => {
-      if (res.length > 0) {
-        console.log(res[0].userid)
-        if(!this.isAsRestourant)
-          return
-        let userId = res[0].userid  
-        this.restaurantService.registerRestoraunt(restourantName,userId)
-      }
-    })
+      .subscribe((res: any) => {
+        if (res.length > 0) {
+          console.log(res[0].userid)
+          if (!this.isAsRestourant)
+            return
+          this.currentUser = res[0]
+          let userId = res[0].userid
+          this.restaurantService.registerRestoraunt(restourantName, userId)
+        }
+      })
 
   }
 
