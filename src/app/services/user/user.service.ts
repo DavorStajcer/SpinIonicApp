@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { RestourantService } from 'src/app/services/restourant/restourant.service';
+
 
 export interface User {
 
@@ -23,32 +25,33 @@ export enum AuthMode {
 export class UserService {
 
   isLoggedIn: boolean = false
-  authMode : AuthMode = AuthMode.logIn
+  isAsRestourant : boolean = false
+  authMode: AuthMode = AuthMode.logIn
 
-  private _isNameVisible: boolean = false;
-    get isNameVisible(): boolean {
-        return this.authMode == AuthMode.signUp;
-    }
-     set bar(value: boolean) {
-        this._isNameVisible = value;
+  private _isSignUp: boolean = false;
+  get isSignUp(): boolean {
+    return this.authMode == AuthMode.signUp;
+  }
+  set isSignUp(value: boolean) {
+    this._isSignUp = value;
   }
 
 
   url: string = "https://jupitermobiletest.jupiter-software.com:30081/jupitermobilex/gen/api/food"
 
-  constructor(private httpClient: HttpClient){
+  constructor(private httpClient: HttpClient,private restaurantService : RestourantService) {
 
   }
 
-  mapAuthModeToString(){
+  mapAuthModeToString() {
     return this.authMode == AuthMode.logIn ? "Sing up instead" : "Log in isntead"
   }
 
-  mapAuthModeToAuthButtonString(){
+  mapAuthModeToAuthButtonString() {
     return this.authMode == AuthMode.logIn ? "Log in" : "Sign up"
   }
 
-  changeAuthMode(){
+  changeAuthMode() {
     this.authMode == AuthMode.logIn ? this.authMode = AuthMode.signUp : this.authMode = AuthMode.logIn
     console.log(this.authMode)
   }
@@ -73,9 +76,9 @@ export class UserService {
       ]
     }
     this.httpClient.post(this.url, body)
-      .subscribe((response : Array<User>) => {
+      .subscribe((response: Array<User>) => {
         console.log(`on Next, response -> ${response[0]}`)
-        if(response.length == 1)
+        if (response.length == 1)
           this.isLoggedIn = true
       }, error => {
         console.log("on error")
@@ -84,7 +87,7 @@ export class UserService {
       })
   }
 
-  signUp(username: string,email: string,  password: string) {
+  signUp(username: string, email: string, password: string,restourantName : string) {
 
     let body = {
       "db": "Food",
@@ -101,69 +104,25 @@ export class UserService {
       ]
     }
 
-    return this.httpClient.post(this.url, body).pipe().toPromise()
+    return this.httpClient.post(this.url, body)
+    .subscribe((res : any) => {
+      if (res.length > 0) {
+        console.log(res[0].userid)
+        if(!this.isAsRestourant)
+          return
+        let userId = res[0].userid  
+        this.restaurantService.registerRestoraunt(restourantName,userId)
+      }
+    })
 
   }
 
+}
 
 
-  signUpAdmin(userid : number) {
-/*     let body = {
-      "db": "Food",
-      "queries": {
-        "db": "Food",
-        "queries": [
-          {
-            "query": "spUsersAzur",
-            "params": {
-              "action": "usertoadmins",
-              "userid": userid
-            }
-          }
-        ]
-      }
-    }
-    console.log("Registering admin...")
-    return this.httpClient.post(this.url, body).pipe().toPromise() */
-    console.log(`Registering admin..., userid -> ${userid}`)
-    let body = {
-      "db": "Food",
-      "queries": {
-        "db": "Food",
-        "queries": [
-          {
-            "query": "spUsersAzur",
-            "params": {
-              "action": "usertoadmins",
-              "userid": userid
-            }
-          }
-        ]
-      }
-    }
-    this.httpClient.post(this.url, body).subscribe((res: Array<User>) => {
-        if (res.length > 0) {
-          this.isLoggedIn = true;
-          console.log("Registered")
 
-        }
-      });
 
-    }
-    
-   /*  subscribe((res: Array<User>) => {
-        if (res.length > 0) {
-          this.isLoggedIn = true;
-          console.log(this.isLoggedIn)
-        }
-      }); */
 
-    }
-  
-
-  
-
-  
 
 
 

@@ -15,10 +15,6 @@ export class RestourantService {
 
   constructor(private httpClient: HttpClient) { }
 
-  isAsRestourant : boolean = false
-
-  
-
   url: string = "https://jupitermobiletest.jupiter-software.com:30081/jupitermobilex/gen/api/food"
 
 
@@ -40,11 +36,7 @@ export class RestourantService {
   }
   console.log("Registering restaurant...")
     this.httpClient.post(this.url, body).subscribe((res: Array<User>) => {
-      
-      console.log(res)
-      if (res.length > 0){
-        console.log("Registered !")
-      }
+      console.log("Registered !")
     });
 
   }

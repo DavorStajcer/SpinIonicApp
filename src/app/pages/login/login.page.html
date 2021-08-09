@@ -11,12 +11,12 @@
 
   <ion-img class="logo center" src="/assets/images/logo.png"></ion-img>
 
-  <ion-item class="input center" [hidden]="!restaurantService.isRestourantNameVisible">
+  <ion-item class="input center" [hidden]="!userService.isAsRestourant">
     <ion-label position="floating">Restourant name</ion-label>
     <ion-input [(ngModel)]="restourantName"></ion-input>
   </ion-item>
 
-  <ion-item class="input center" [hidden] = "!userService.isNameVisible">
+  <ion-item class="input center" [hidden] = "!userService.isSignUp">
     <ion-label position="floating">Username</ion-label>
     <ion-input [(ngModel)]="username"></ion-input>
   </ion-item>
@@ -32,9 +32,9 @@
   </ion-item>
 
 
-  <ion-item class="center toggleButton" >
+  <ion-item class="center toggleButton" [hidden] = "!userService.isSignUp" >
     <ion-label>As restaurant</ion-label>
-    <ion-toggle [(ngModel)]="restaurantService.isAsRestourant" ></ion-toggle>
+    <ion-toggle [(ngModel)]="userService.isAsRestourant" ></ion-toggle>
   </ion-item>
 
 
