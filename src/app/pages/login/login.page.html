@@ -11,19 +11,39 @@
 
   <ion-img class="logo center" src="/assets/images/logo.png"></ion-img>
 
+  <ion-item class="input center" [hidden]="!restaurantService.isRestourantNameVisible">
+    <ion-label position="floating">Restourant name</ion-label>
+    <ion-input [(ngModel)]="restourantName"></ion-input>
+  </ion-item>
+
+  <ion-item class="input center" [hidden] = "!userService.isNameVisible">
+    <ion-label position="floating">Username</ion-label>
+    <ion-input [(ngModel)]="username"></ion-input>
+  </ion-item>
+
   <ion-item class="input center">
-    <ion-label position="floating">Floating Label</ion-label>
+    <ion-label position="floating">Email</ion-label>
     <ion-input [(ngModel)]="email"></ion-input>
   </ion-item>
 
   <ion-item class="input center">
-    <ion-label position="floating">Floating Label</ion-label>
+    <ion-label position="floating">Password</ion-label>
     <ion-input [(ngModel)]="password"></ion-input>
   </ion-item>
 
 
-  <div class="center">
-    <ion-button (click)="onLoginClicked()">Log in</ion-button>
+  <ion-item class="center toggleButton" >
+    <ion-label>As restaurant</ion-label>
+    <ion-toggle [(ngModel)]="restaurantService.isAsRestourant" ></ion-toggle>
+  </ion-item>
+
+
+  <div class="centerButton">
+    <ion-button (click)="authenticate()">{{userService.mapAuthModeToAuthButtonString()}}</ion-button>
+  </div>
+  <br>
+  <div class="centerButton">
+    <ion-button color="light" class="authModeButton" (click)="userService.changeAuthMode()">{{userService.mapAuthModeToString()}}</ion-button>
   </div>
 
 </ion-content>

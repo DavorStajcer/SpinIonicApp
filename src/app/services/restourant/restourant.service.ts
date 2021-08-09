@@ -1,0 +1,52 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../user/user.service';
+
+export enum SignUpMode {
+  normal,
+  restaurant
+}
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RestourantService {
+
+  constructor(private httpClient: HttpClient) { }
+
+  isAsRestourant : boolean = false
+
+  
+
+  url: string = "https://jupitermobiletest.jupiter-software.com:30081/jupitermobilex/gen/api/food"
+
+
+  registerRestoraunt(companyName: string, userId: number) {
+
+    let body = {
+      "db": "Food",
+      "queries": [
+          {
+              "query": "spCompanyAzur",
+              "params": {
+                  "action": "insert",
+                  "name": companyName,
+                  "status": 1,
+                  "userid": userId
+              }
+          }
+      ]
+  }
+  console.log("Registering restaurant...")
+    this.httpClient.post(this.url, body).subscribe((res: Array<User>) => {
+      
+      console.log(res)
+      if (res.length > 0){
+        console.log("Registered !")
+      }
+    });
+
+  }
+}
+

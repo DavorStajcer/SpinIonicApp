@@ -6,7 +6,14 @@
 .center {
     margin-left: auto;
     margin-right: auto;
+}
+
+.centerButton {
     text-align:center;
+}
+
+.toggleButton {
+    width: 200px;
 }
 
 .input {
@@ -22,4 +29,8 @@
 
 .active{
     color: blue;
+}
+
+.authModeButton {
+    color : green;
 }
