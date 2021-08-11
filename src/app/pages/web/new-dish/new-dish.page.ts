@@ -12,4 +12,8 @@ export class NewDishPage implements OnInit {
   ngOnInit() {
   }
 
+  onSelectImage(){
+    console.log("On select image")
+  }
+
 }

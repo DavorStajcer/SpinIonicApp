@@ -26,6 +26,8 @@ ion-content {
 }
 
 
+
+
 .parent {
     width: 100%;
     height: 100%;
@@ -40,10 +42,18 @@ ion-content {
 .navItem {
     width: 100%;
     height: 18%;
-    background-color: #09B44D;
-    color: white;
-    background: #09B44D;
     margin: 0%;
     text-align: center;
     font-weight: bold;
+}
+
+.pressed{
+    color: green;
+    background: white;
+}
+
+.notPressed{
+    background-color: #09B44D;
+    color: white;
+    background: #09B44D;
 }

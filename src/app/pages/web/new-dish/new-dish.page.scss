@@ -1,6 +1,21 @@
 .input-circle {
-    height: 400px;
-    width: 400px;
+    height: 100px;
+    width: 100px;
     background-color: grey;
     border-radius: 50px;
+    margin: auto;
+    text-align: center;
+    padding: 0px;
+}
+
+.title {
+    height: 20%;
+    line-height: 100%; 
+    vertical-align: middle;
+    padding-left: 50px;
+    padding-top: 50px;
+}
+
+.page {
+    padding: 40px;
 }

@@ -1,47 +1,38 @@
 
-<ion-content style="display: flex; flex-wrap: nowrap ">
+<ion-content style="display: flex; flex-wrap: nowrap;">
 <!--   <app-side-nav></app-side-nav>
  -->  
  
-    <div style="height: 100%;">
-      <div style="height: 20%;line-height: 100%; vertical-align: middle; background: chartreuse;">
-        <h4 >ADD NEW MEAL</h4>
+    <div style="height: 100%;padding: 30px;">
+      <div class="title">
+        <h4 style="font-weight: bold;">ADD NEW MEAL</h4>
       </div>
-       
-        <div style="display: flex; flex-wrap: nowrap ">
-            <div style="width: 50%;">
-              <ion-item class="input center" >
-                <ion-label position="floating">Meal name</ion-label>
-                <ion-input [(ngModel)]="restourantName"></ion-input>
-              </ion-item>
-            
-              <ion-item class="input center" >
-                <ion-label position="floating">Meal description</ion-label>
-                <ion-input ></ion-input>
-              </ion-item>
-            </div>
-            <div style="margin: auto;">
-              <!-- <ion-avatar style=" vertical-align: middle; text-align: center; background: #92949C; height: 85px;width: 85px;">
-             
-              </ion-avatar> -->
-              <input id="file2" hidden type="file">
-              <label class="input-circle" for="file2" >sadas</label>
-            </div>
-          
+      <div style="display: flex; flex-wrap: nowrap;">
+        <div style="width: 50%;">
+         <ion-item class="input center" >
+            <ion-label position="floating">Meal name</ion-label>
+            <ion-input [(ngModel)]="restourantName"></ion-input>
+          </ion-item>
+          <ion-item class="input center" >
+              <ion-label position="floating">Meal description</ion-label>
+              <ion-input ></ion-input>
+          </ion-item>
         </div>
-    
-    <div style="width: 50%;">
-      <div style="display: flex;text-align: end;">
-        <div style="flex-grow: 1;"></div>
-        <ion-button style="flex-grow: 1;" >SAVE</ion-button>
-        <ion-button style="flex-grow: 1;">CANCEL</ion-button>
+        <div class="input-circle" (click)="onSelectImage()">
+          <ion-icon style="margin-top: 41px;" name="person-outline"></ion-icon>
+        </div>
+      </div>
+
+      <div style="width: 50%; padding-top: 10px;">
+        <div style="display: flex;text-align: end;">
+          <div style="flex-grow: 1;">
+          </div>
+          <ion-button style="flex-grow: 1;" >SAVE</ion-button>
+          <ion-button style="flex-grow: 1;">CANCEL</ion-button>
+        </div>
       </div>
     </div>
-       
-    </div>
  
     
- 
-
 
 </ion-content>
