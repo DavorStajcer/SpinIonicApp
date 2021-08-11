@@ -8,6 +8,7 @@ import { MenuPageRoutingModule } from './menu-routing.module';
 
 import { MenuPage } from './menu.page';
 import { MealComponent } from 'src/app/components/meal/meal.component';
+import { SideNavComponent } from '../../../../components/side-nav/side-nav.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { MealComponent } from 'src/app/components/meal/meal.component';
   declarations: [
     MenuPage,
     MealComponent,
+    SideNavComponent
   ]
 })
 export class MenuPageModule {}

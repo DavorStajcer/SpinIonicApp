@@ -1,7 +1,7 @@
 <ion-content style="height: 100%;">
   <!--    -->
   <div style="display: flex; flex-wrap: nowrap; height: 100%; ">
-   <!--    <app-side-nav style="width: 10%;height: 100%;background: tomato;"></app-side-nav> -->
+      <app-side-nav style="width: 10%;height: 100%;background: tomato;"></app-side-nav>
     <div class="halfPageContainer">
       <div style="height: 20%;">
         <h4 class="center">DAY MEALS</h4>
@@ -18,21 +18,16 @@
         <h5 class="center">Current meals</h5>
         <h6 class="center">Click on the meal card to add it to your day menu</h6>
       </div>
-      <div style="height: 80%;background: tomato;">
-        <ion-list>
-          <ion-item>
-            <ion-label>Pokémon Yellow</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label>Pokémon Yellow</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label>Pokémon Yellow</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label>Pokémon Yellow</ion-label>
-          </ion-item>
-        </ion-list>
+      <div style="height: 80%;background: tomato; scrollbar-width: thin;    overflow-y: auto;">
+        <ion-grid>
+          <ion-row>
+            <ion-col sizeLg="6" sizeMd="12" *ngFor="let item of polje">
+              <app-meal ></app-meal>
+            </ion-col>      
+          </ion-row>
+        </ion-grid>
+          
+   
       </div>
     </div>
   </div>
