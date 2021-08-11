@@ -39,7 +39,7 @@ export class RestourantService {
           "query": "spMenu",
           "params": {
               "action": "week",
-              "companyid": "1"
+              "companyid": this.userService.getUserCompany()
           },
           "tablename":"menus"
       }
