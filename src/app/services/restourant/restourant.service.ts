@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from 'src/app/interfaces/user';
+import { UserService } from '../user/user.service';
+import { Order } from 'src/app/interfaces/order';
+import { BehaviorSubject } from 'rxjs';
+import { Menu } from 'src/app/interfaces/menu';
 
 
 
@@ -9,32 +12,63 @@ import { User } from 'src/app/interfaces/user';
 })
 export class RestourantService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,private userService : UserService) { }
 
   url: string = "https://jupitermobiletest.jupiter-software.com:30081/jupitermobilex/gen/api/food"
 
 
-  registerRestoraunt(companyName: string, userId: number) {
+  orders : BehaviorSubject<Array<Order>> = new BehaviorSubject(null)
+  menus : BehaviorSubject<Array<Menu>> = new BehaviorSubject(null)
 
+
+
+
+  initRestaurantForCompanyUser() {
     let body = {
       "db": "Food",
       "queries": [
-          {
-              "query": "spCompanyAzur",
-              "params": {
-                  "action": "insert",
-                  "name": companyName,
-                  "status": 1,
-                  "userid": userId
-              }
-          }
+        {
+          "query": "spOrdersQuery",
+          "params": {
+            "action": "forCompany",
+            "restoranid": this.userService.getUserCompany()
+          },
+          "tablename":"orders"
+        },
+        {
+          "query": "spMenu",
+          "params": {
+              "action": "week",
+              "companyid": "1"
+          },
+          "tablename":"menus"
+      }
       ]
+    }
+
+    return this.httpClient.post(this.url,body)
+    .toPromise()
+    .then((result : any) => {
+      console.log(`Orders -> ${result}`)
+      console.log(`Orders -> ${result.orders}`)
+      this.orders.next(result.orders)
+      this.menus.next(result.menus)
+      return result.orders as Array<Order>
+    })
+
+    
   }
-  console.log("Registering restaurant...")
-    this.httpClient.post(this.url, body).subscribe((res: Array<User>) => {
-      console.log("Registered !")
-    });
+
+  private getRetaurantId(){
 
   }
+
+  initRestaurantForCustomerUser() {
+    return []
+
+  }
+
+
+ 
 }
 

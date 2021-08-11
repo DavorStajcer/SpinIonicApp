@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Order } from 'src/app/interfaces/order';
 
 @Component({
   selector: 'app-meal',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class MealComponent implements OnInit {
 
   constructor() { }
+
+  @Input() order : Order
 
   ngOnInit() {}
 

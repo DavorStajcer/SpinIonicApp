@@ -9,17 +9,25 @@ import { UserService } from './services/user/user.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+
+  isLoggedIn = false
+
+
   constructor(
     private menuController: MenuController,
     private userService: UserService,
     private router: Router,
-  ) { }
+  ) { 
+    this.userService._currentUser.subscribe((value) => {
+        this.isLoggedIn = value != null
+    })
+  }
 
 
 
   logUserOut() {
     this.menuController.close()
-    this.userService.currentUser = null
+    this.userService.logOut()
     
   }
 

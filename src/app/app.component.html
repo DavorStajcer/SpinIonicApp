@@ -13,10 +13,9 @@
  
   <ion-router-outlet id="main-content">
   </ion-router-outlet>
-  <ion-fab [hidden]="userService.currentUser == null || userService.currentUser == undefined" (click) = "openMenu()" vertical="top" horizontal="end" slot="fixed">
+  <ion-fab [hidden]="!isLoggedIn" (click) = "openMenu()" vertical="top" horizontal="end" slot="fixed">
     <ion-fab-button>
       <ion-icon name="menu-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
 </ion-app>

@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { VirtualTimeScheduler } from 'rxjs';
+import { Day } from 'src/app/interfaces/day';
+import { Order } from 'src/app/interfaces/order';
+import { RestourantService } from 'src/app/services/restourant/restourant.service';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -7,11 +13,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardPage implements OnInit {
 
-  constructor() { }
+  fetchedOrders : Array<Order> = []
 
-  ngOnInit() {
+  constructor(private router : Router,private restaurantService : RestourantService) { 
+    this.restaurantService.orders.subscribe((orders : Array<Order>) => {
+        this.fetchedOrders = orders
+    })
   }
 
-  
+
+  ngOnInit() {
+    
+  }
+
+  onDayChanged(day : Day){
+      console.log(`Day got in dashboard -> ${day}`)
+  }
 
 }

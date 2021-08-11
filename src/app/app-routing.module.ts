@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth/auth.guard';
+import { RestourantResolverService } from './resolvers/restourant/restourant.service';
 
 const routes: Routes = [
 
@@ -23,7 +24,10 @@ const routes: Routes = [
     ],
     canActivate: [
       AuthGuard,
-    ]
+    ],
+    resolve : {
+      restaurant : RestourantResolverService
+    }
   },
   {
     path: '**',

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { RestourantService } from 'src/app/services/restourant/restourant.service';
 import { User } from 'src/app/interfaces/user';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 
 
@@ -23,6 +24,8 @@ export class UserService {
   authMode: AuthMode = AuthMode.logIn
   currentUser: User
 
+  _currentUser : BehaviorSubject<User> = new BehaviorSubject(null)
+
   private _isSignUp: boolean = false;
   get isSignUp(): boolean {
     return this.authMode == AuthMode.signUp;
@@ -36,10 +39,14 @@ export class UserService {
 
   constructor(
     private httpClient: HttpClient,
-    private restaurantService: RestourantService,
     private router: Router
   ) {
 
+  }
+
+
+  getUserCompany(){
+    return this._currentUser.getValue().companyId
   }
 
   mapAuthModeToString() {
@@ -57,6 +64,10 @@ export class UserService {
     console.log(this.authMode)
   }
 
+  logOut(){
+    this._currentUser.next(null)
+  }
+
 
 
   logIn(email: string, password: string) {
@@ -69,8 +80,10 @@ export class UserService {
           "query": "spUsersAzur",
           "params": {
             "action": "login",
-            "email": `${email}`,
-            "password": `${password}`
+          /*   "email": `${email}`,
+            "password": `${password}` */
+            "email" : "vedran.prpic1@gmail.com",
+            "password" : "lozinka"
           }
         }
       ]
@@ -82,6 +95,7 @@ export class UserService {
         if (response.length == 1) {
           this.isLoggedIn = true
           this.currentUser = response[0]
+          this._currentUser.next(response[0])
           this.router.navigate(
             ['web/dashboard'], 
             {
@@ -121,9 +135,32 @@ export class UserService {
             return
           this.currentUser = res[0]
           let userId = res[0].userid
-          this.restaurantService.registerRestoraunt(restourantName, userId)
+          this.registerRestoraunt(restourantName, userId)
         }
       })
+
+  }
+
+  private  registerRestoraunt(companyName: string, userId: number) {
+
+    let body = {
+      "db": "Food",
+      "queries": [
+        {
+          "query": "spCompanyAzur",
+          "params": {
+            "action": "insert",
+            "name": companyName,
+            "status": 1,
+            "userid": userId
+          }
+        }
+      ]
+    }
+    console.log("Registering restaurant...")
+    this.httpClient.post(this.url, body).subscribe((res: Array<User>) => {
+      console.log("Registered !")
+    });
 
   }
 
