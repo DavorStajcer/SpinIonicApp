@@ -1,9 +1,39 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>dashboard</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
+<ion-content style="height: 100%;">
+  <!--    -->
+  <div style="display: flex; flex-wrap: nowrap; height: 100%; ">
+   <!--    <app-side-nav style="width: 10%;height: 100%;background: tomato;"></app-side-nav> -->
+    <div class="halfPageContainer">
+      <div style="height: 20%;">
+        <h4 class="center">DAY MEALS</h4>
+        <h5 class="center"> Non active meals</h5>
+        <h6 class="center">Click on the meal card to add it to your day menu</h6>
+      </div>
+      <div style="height: 70%; background: red;">
+      </div>
+      <ion-button style="width: 100%;height: 10%;">ADD NEW MEAL</ion-button>
+    </div>
+    <div class="halfPageContainer">
+      <div style="height: 20%;">
+        <ion-searchbar></ion-searchbar>
+        <h5 class="center">Current meals</h5>
+        <h6 class="center">Click on the meal card to add it to your day menu</h6>
+      </div>
+      <div style="height: 80%;background: tomato;">
+        <ion-list>
+          <ion-item>
+            <ion-label>Pokémon Yellow</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Pokémon Yellow</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Pokémon Yellow</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Pokémon Yellow</ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+  </div>
 </ion-content>

@@ -1,0 +1,49 @@
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navPage {
+    width: 10%;
+    
+}
+
+ion-content {
+    background-color: blue !important;
+}
+
+.pageBackground{
+    background: red;
+    background-color: red;
+    color: red;
+}
+
+.navLogo {
+    width: 100%;
+    height: 10%;
+    background-color: #09B44D;
+}
+
+
+.parent {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+}
+.parent > .child {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.navItem {
+    width: 100%;
+    height: 18%;
+    background-color: #09B44D;
+    color: white;
+    background: #09B44D;
+    margin: 0%;
+    text-align: center;
+    font-weight: bold;
+}

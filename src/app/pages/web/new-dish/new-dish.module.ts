@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { NewDishPageRoutingModule } from './new-dish-routing.module';
 
 import { NewDishPage } from './new-dish.page';
+import { SideNavComponent } from 'src/app/components/side-nav/side-nav.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    NewDishPageRoutingModule
+    NewDishPageRoutingModule,
+   
   ],
-  declarations: [NewDishPage]
+  declarations: [NewDishPage, SideNavComponent]
 })
 export class NewDishPageModule {}

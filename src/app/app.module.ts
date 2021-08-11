@@ -8,6 +8,7 @@ import { IonicModule, IonicRouteStrategy, MenuController } from '@ionic/angular'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MealComponent } from './components/meal/meal.component';
 
 
 @NgModule({

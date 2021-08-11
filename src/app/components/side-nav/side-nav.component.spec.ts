@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { MealComponent } from 'src/app/components/meal/meal.component';
 
-import { DashboardPage } from './dashboard.page';
+import { SideNavComponent } from './side-nav.component';
 
-describe('DashboardPage', () => {
-  let component: DashboardPage;
-  let fixture: ComponentFixture<DashboardPage>;
+describe('SideNavComponent', () => {
+  let component: SideNavComponent;
+  let fixture: ComponentFixture<SideNavComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardPage],
+      declarations: [ SideNavComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DashboardPage);
+    fixture = TestBed.createComponent(SideNavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

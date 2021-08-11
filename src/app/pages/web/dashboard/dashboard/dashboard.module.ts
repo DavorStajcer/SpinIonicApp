@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { DashboardPageRoutingModule } from './dashboard-routing.module';
 
 import { DashboardPage } from './dashboard.page';
+import { MealComponent } from 'src/app/components/meal/meal.component';
+import { SideNavComponent } from 'src/app/components/side-nav/side-nav.component';
 
 @NgModule({
   imports: [
@@ -15,6 +17,10 @@ import { DashboardPage } from './dashboard.page';
     IonicModule,
     DashboardPageRoutingModule
   ],
-  declarations: [DashboardPage]
+  declarations: [
+    DashboardPage,
+     MealComponent,
+      SideNavComponent,
+    ]
 })
 export class DashboardPageModule {}

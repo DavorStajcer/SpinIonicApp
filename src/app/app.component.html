@@ -1,12 +1,5 @@
 <ion-app>
   <ion-menu side="end" menuId="first" contentId="main-content">
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>Start Menu</ion-title>
-      </ion-toolbar>
-
-
-    </ion-header>
     <ion-content>
       <ion-list>
         <ion-item (click) = "closeMenu()" [routerLink]="['/web/dashboard']">Dashboard</ion-item>
@@ -25,4 +18,5 @@
       <ion-icon name="menu-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
 </ion-app>

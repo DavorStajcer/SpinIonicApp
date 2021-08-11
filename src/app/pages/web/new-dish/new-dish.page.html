@@ -1,9 +1,45 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>newDish</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
+<ion-content style="display: flex; flex-wrap: nowrap ">
+<!--   <app-side-nav></app-side-nav>
+ -->  
+ 
+    <div style="height: 100%;">
+      <div style="height: 20%;line-height: 100%; vertical-align: middle; background: chartreuse;">
+        <h4 >ADD NEW MEAL</h4>
+      </div>
+       
+        <div style="display: flex; flex-wrap: nowrap ">
+            <div style="width: 50%;">
+              <ion-item class="input center" >
+                <ion-label position="floating">Meal name</ion-label>
+                <ion-input [(ngModel)]="restourantName"></ion-input>
+              </ion-item>
+            
+              <ion-item class="input center" >
+                <ion-label position="floating">Meal description</ion-label>
+                <ion-input ></ion-input>
+              </ion-item>
+            </div>
+            <div style="margin: auto;">
+              <ion-avatar style=" vertical-align: middle; text-align: center; background: #92949C; height: 85px;width: 85px;">
+             
+              </ion-avatar>
+            </div>
+          
+        </div>
+    
+    <div style="width: 50%;">
+      <div style="display: flex;text-align: end;">
+        <div style="flex-grow: 1;"></div>
+        <ion-button style="flex-grow: 1;" >SAVE</ion-button>
+        <ion-button style="flex-grow: 1;">CANCEL</ion-button>
+      </div>
+    </div>
+       
+    </div>
+ 
+    
+ 
+
 
 </ion-content>
