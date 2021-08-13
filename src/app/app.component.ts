@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { UserService } from './services/user/user.service';
 
 @Component({
@@ -10,25 +11,39 @@ import { UserService } from './services/user/user.service';
 })
 export class AppComponent {
 
-  isLoggedIn = false
-
+  isLoggedIn : boolean
+  private userAuthSubscription : Subscription = null
 
   constructor(
     private menuController: MenuController,
     private userService: UserService,
     private router: Router,
-  ) { 
-    this.userService._currentUser.subscribe((value) => {
-        this.isLoggedIn = value != null
-    })
+  ) {
+    this.onInitApp()
+  }
+
+  async onInitApp() {
+    if(await this.userService.isUserAuthenticated()){
+      this.isLoggedIn = true
+      await this.router.navigate(["/web/dashboard"])
+      
+    }else
+      this.observeAuthenticatedUser()
   }
 
 
+  observeAuthenticatedUser(){
+    this.userAuthSubscription = this.userService._currentUser.subscribe((value) => {
+      this.isLoggedIn = value != null
+    })
+  }
 
-  logUserOut() {
-    this.menuController.close()
-    this.userService.logOut()
-    
+  async logUserOut() {
+    await this.menuController.close()
+    await this.userService.logOut()
+    if(this.userAuthSubscription == null)
+      this.observeAuthenticatedUser()
+
   }
 
   openMenu() {

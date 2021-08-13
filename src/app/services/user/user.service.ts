@@ -4,6 +4,7 @@ import { RestourantService } from 'src/app/services/restourant/restourant.servic
 import { User } from 'src/app/interfaces/user';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { StorageService } from '../storage/storage.service';
 
 
 
@@ -39,7 +40,8 @@ export class UserService {
 
   constructor(
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    private storage : StorageService,
   ) {
 
   }
@@ -64,11 +66,18 @@ export class UserService {
     console.log(this.authMode)
   }
 
-  logOut(){
+  async logOut(){
     this._currentUser.next(null)
+    await this.storage.removeData("user")
   }
 
-
+  async isUserAuthenticated(){
+    let user : User = await this.storage.getData("user") as User
+    if(user == undefined || user == null)
+      return false
+    this._currentUser.next(user)
+    return true
+  }
 
   logIn(email: string, password: string) {
     console.log(`email -> ${email}`)
@@ -89,7 +98,7 @@ export class UserService {
       ]
     }
     this.httpClient.post(this.url, body)
-      .subscribe((response: Array<User>) => {
+      .subscribe(async (response: Array<User>) => {
         console.log(`on Next, response -> ${response[0]}`)
 
         if (response.length == 1) {
@@ -102,6 +111,8 @@ export class UserService {
             replaceUrl : true,
           })
         }
+
+        await this.storage.setData("user",response[0])
 
       }, error => {
         console.log("on error")

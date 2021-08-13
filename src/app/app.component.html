@@ -5,7 +5,7 @@
         <ion-item (click) = "closeMenu()" [routerLink]="['/web/dashboard']">Dashboard</ion-item>
         <ion-item (click) = "closeMenu()" [routerLink]="['/web/menu']">Menu</ion-item>
         <ion-item (click) = "closeMenu()" [routerLink]="['/web/newDish']">New dish</ion-item>
-        <ion-item *ngIf="userService.currentUser != null && userService.currentUser != undefined" (click) = "logUserOut()" [routerLink]="['']">Log out</ion-item>
+        <ion-item  (click) = "logUserOut()" [routerLink]="['']">Log out</ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>
