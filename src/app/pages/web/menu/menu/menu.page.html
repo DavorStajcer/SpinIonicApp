@@ -1,7 +1,7 @@
 <ion-content style="height: 100%;">
   <!--    -->
   <div style="display: flex; flex-wrap: nowrap; height: 100%; ">
-      <app-side-nav style="width: 10%;height: 100%;background: tomato;" (dayChosenEmitter)="onDayChanged($event)"></app-side-nav>
+      <app-side-nav style="width: 10%;height: 100%;" (emitter)="onDayChanged($event)"></app-side-nav>
     <div class="halfPageContainer">
       <div style="height: 20%;">
         <h4 class="center">DAY MEALS</h4>
@@ -11,13 +11,13 @@
       <div style="height: 70%; scrollbar-width: thin;  overflow-y: auto;">
         <ion-grid>
           <ion-row>
-            <ion-col sizeLg="6" sizeMd="12" *ngFor="let item of polje">
-              <app-meal ></app-meal>
+            <ion-col sizeLg="6" sizeMd="12" *ngFor="let dish of dishesNotInMenu">
+              <app-meal [dish] = "dish" (clickEmitter)="onDishClicked($event)"></app-meal>
             </ion-col>      
           </ion-row>
         </ion-grid>
       </div>
-      <ion-button style="width: 100%;height: 10%;">ADD NEW MEAL</ion-button>
+      <ion-button (click)="onAddNewDishButtonClicked()" style="width: 100%;height: 10%; ">ADD NEW MEAL</ion-button>
     </div>
     <div class="halfPageContainer">
       <div style="height: 20%;">
@@ -28,8 +28,8 @@
       <div style="height: 80%; scrollbar-width: thin;  overflow-y: auto;">
         <ion-grid>
           <ion-row>
-            <ion-col sizeLg="6" sizeMd="12" *ngFor="let item of polje">
-              <app-meal ></app-meal>
+            <ion-col sizeLg="6" sizeMd="12" *ngFor="let dish of dishesInMenu">
+              <app-meal [dish] = "dish" (clickEmitter)="onDishFromMenuClicked($event)"></app-meal>
             </ion-col>      
           </ion-row>
         </ion-grid>

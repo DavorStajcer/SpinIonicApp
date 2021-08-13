@@ -1,7 +1,7 @@
 <ion-content>
       
   <div style="display: flex; flex-wrap: nowrap; height: 100%;width: 100%; ">
-   <app-side-nav style="width: 10%;height: 100%;" (dayChosenEmitter)="onDayChanged($event)"></app-side-nav> 
+   <app-side-nav style="width: 10%;height: 100%;" (emitter)="onDayChanged($event)"></app-side-nav> 
 <!-- 
    <div style="width: 10%;background: green;"></div> -->
    <div style="height:100%;width:90%;">
@@ -15,8 +15,8 @@
      <div style="height: 70%;overflow-y: auto; width: 99%;" >
         <ion-grid>
           <ion-row>
-            <ion-col size = 6 *ngFor="let order of fetchedOrders" >
-              <app-meal [order] = "order"></app-meal>
+            <ion-col size = 6 *ngFor="let order of currentlyDisplayedOrders" >
+              <app-order [order] = "order"></app-order>
             </ion-col>
           </ion-row>
         </ion-grid>

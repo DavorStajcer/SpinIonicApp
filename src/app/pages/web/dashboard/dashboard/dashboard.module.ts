@@ -9,6 +9,7 @@ import { DashboardPageRoutingModule } from './dashboard-routing.module';
 import { DashboardPage } from './dashboard.page';
 import { MealComponent } from 'src/app/components/meal/meal.component';
 import { SideNavComponent } from 'src/app/components/side-nav/side-nav.component';
+import { OrderComponent } from 'src/app/components/order/order.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { SideNavComponent } from 'src/app/components/side-nav/side-nav.component
   ],
   declarations: [
     DashboardPage,
-     MealComponent,
+    OrderComponent,
       SideNavComponent,
     ]
 })

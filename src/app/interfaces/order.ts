@@ -10,5 +10,6 @@ export interface Order {
     narucitelj : string,
     firma : number,
     naruciteljId : number
+
  
 }

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component,EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Dish } from 'src/app/interfaces/dish';
 import { Order } from 'src/app/interfaces/order';
 
 @Component({
@@ -10,8 +11,13 @@ export class MealComponent implements OnInit {
 
   constructor() { }
 
-  @Input() order : Order
+  @Input() dish : Dish
+  @Output() clickEmitter : EventEmitter<Dish> = new EventEmitter()
 
   ngOnInit() {}
+
+  onDishClicked(){
+    this.clickEmitter.emit(this.dish)
+  }
 
 }

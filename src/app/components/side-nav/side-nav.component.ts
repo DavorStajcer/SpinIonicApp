@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Day } from 'src/app/interfaces/day';
 
 
 
@@ -23,15 +22,19 @@ export class SideNavComponent implements OnInit {
   days = [0,1,2,3,4]
   daysString = ["MON","TUE","WEN","THU","FRI"]
   selectedDayIndex = 0
-  currentDay = 1
+  currentDay = 0
 
   constructor(private router : Router) {
 
   }
 
+  @Output() emitter : EventEmitter<number> = new EventEmitter()
+
  
   changeDay(day : number){
     this.currentDay = day
+    console.log(`Emitting changed day`)
+    this.emitter.emit(day)
   }
 
   ngOnInit() { 
