@@ -6,6 +6,10 @@ import { BehaviorSubject } from 'rxjs';
 import { Menu } from 'src/app/interfaces/menu';
 import { Dish } from 'src/app/interfaces/dish';
 import { OrderFilter } from 'src/app/util/orderFilter';
+import { Restaurant } from 'src/app/interfaces/restaurant';
+import { map } from 'rxjs/operators'
+import { MobileMenu } from 'src/app/interfaces/mobileMenu';
+
 
 
 
@@ -17,14 +21,24 @@ export class RestourantService {
   constructor(
     private httpClient: HttpClient,
     private userService: UserService
-  ) { }
+  ) {
+
+    /*   this.filteredOrders.subscribe((newFilteredOrders)=>{
+        this.orders.next(newFilteredOrders)
+      }) */
+  }
 
   url: string = "https://jupitermobiletest.jupiter-software.com:30081/jupitermobilex/gen/api/food"
 
 
   orders: BehaviorSubject<Array<Order>> = new BehaviorSubject(null)
   menus: BehaviorSubject<Array<Menu>> = new BehaviorSubject(null)
+  restaurants: BehaviorSubject<Array<Restaurant>> = new BehaviorSubject(null)
+  allOrders: Array<Order>
+
   dishes: Array<Dish> = []
+
+
 
 
   public currentDay = 0
@@ -43,6 +57,11 @@ export class RestourantService {
     [4, new BehaviorSubject([])],
   ])
 
+
+  /*   onDishesSearchTermChnaged(searchTerm : string){
+     if(searchTerm == undefined ||searchTerm == null || searchTerm == "")
+ 
+   } */
 
   onDishClicked(clickedDish: Dish) {
     let newList = []
@@ -77,7 +96,7 @@ export class RestourantService {
 
   }
 
-  onDayChanged(newDay : number){
+  onDayChanged(newDay: number) {
     this.currentDay = newDay
   }
 
@@ -85,25 +104,25 @@ export class RestourantService {
 
 
   onMenuChanged() {
-  for(let i = 0; i < 5;i++){
-    let currentDayMenu = OrderFilter.mapMenuToDay(this.menus.value, i)
-    let dishesInMenu = OrderFilter.mapMenuToDishes(currentDayMenu, this.dishes)
-    this.dayDishesInMenu.get(i).next(dishesInMenu)
-    let dishesNotInMenu = OrderFilter.filterChosenDishes(this.dishes, dishesInMenu)
-    this.dayDishesNotInMenu.get(i).next(dishesNotInMenu)
-  }
+    for (let i = 0; i < 5; i++) {
+      let currentDayMenu = OrderFilter.mapMenuToDay(this.menus.value, i)
+      let dishesInMenu = OrderFilter.mapMenuToDishes(currentDayMenu, this.dishes)
+      this.dayDishesInMenu.get(i).next(dishesInMenu)
+      let dishesNotInMenu = OrderFilter.filterChosenDishes(this.dishes, dishesInMenu)
+      this.dayDishesNotInMenu.get(i).next(dishesNotInMenu)
+    }
   }
 
 
-  addNewDish(name: string,description : string) {
-    let currentNotMenuDishes : Dish[] = this.dayDishesNotInMenu.get(this.currentDay).value
+  addNewDish(name: string, description: string) {
+    let currentNotMenuDishes: Dish[] = this.dayDishesNotInMenu.get(this.currentDay).value
     currentNotMenuDishes.push({
-      Bread : false,
-      Description : description,
-      DishId : -1,
-      Name : name,
-      Salad : false,
-      Soup : false,
+      Bread: false,
+      Description: description,
+      DishId: -1,
+      Name: name,
+      Salad: false,
+      Soup: false,
     })
 
     let body = {
@@ -157,17 +176,17 @@ export class RestourantService {
     let body = {
       "db": "Food",
       "queries": [
-          {
-              "query": "spMenuAzur",
-              "params": {
-                  "action": "delete",
-                  "dishid": dishId,
-                  "day": day + 1,
-                  "userid": this.userService._currentUser.value.userId
-              }
+        {
+          "query": "spMenuAzur",
+          "params": {
+            "action": "delete",
+            "dishid": dishId,
+            "day": day + 1,
+            "userid": this.userService._currentUser.value.userId
           }
+        }
       ]
-  }
+    }
     this.httpClient.post(this.url, body)
       .subscribe((response: any) => {
         console.log(`Deleted dish from menu -> ${response}`)
@@ -175,7 +194,7 @@ export class RestourantService {
   }
 
 
-  
+
 
 
 
@@ -225,11 +244,52 @@ export class RestourantService {
 
 
   initRestaurantForCustomerUser() {
-    return []
+    let body = {
+      "db": "Food",
+      "queries": [
+        {
+          "query": "spCompany",
+          "params": {
+            "@action": "all"
+          },
+          "tablename": "restaurants"
+        },
+        {
+          "query": "spMenu",
+          "params": {
+            "action": "all"
+          },
+          "tablename": "menus"
+        }
+      ]
+    }
 
+     return this.httpClient.post(this.url, body)
+      .pipe(
+        map(
+          (response: {
+            restaurants: Restaurant[],
+            menus: MobileMenu[]
+          }) => {
+            if (response.restaurants.length > 0) {
+              let restourants: Array<Restaurant> = response.restaurants.map((restorant) => ({
+                companyId: restorant.companyId,
+                name: restorant.name,
+                menus: [1, 2, 3, 4, 5].map((day: number) => {
+                  return response.menus.filter((menu: MobileMenu) => {
+                    day == menu.day && menu.companyId == restorant.companyId
+                  })
+                }),
+                image: ""
+              }))
+            console.log("Emitting got restaurants")  
+            console.log(`Restaurants : ${restourants}`)  
+            this.restaurants.next(restourants)
+            }
+          }
+        )
+      )
+      
   }
-
-
-
 }
 

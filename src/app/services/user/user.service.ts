@@ -20,10 +20,11 @@ export enum AuthMode {
 })
 export class UserService {
 
-  isLoggedIn: boolean = false
-  isAsRestourant: boolean = false
-  authMode: AuthMode = AuthMode.logIn
-  currentUser: User
+  isLoggedIn: boolean = false;
+  isAsRestourant: boolean = false;
+  authMode: AuthMode = AuthMode.logIn;
+  currentUser: User;
+  public isMobile : boolean;
 
   _currentUser : BehaviorSubject<User> = new BehaviorSubject(null)
 
@@ -100,16 +101,16 @@ export class UserService {
     this.httpClient.post(this.url, body)
       .subscribe(async (response: Array<User>) => {
         console.log(`on Next, response -> ${response[0]}`)
-
         if (response.length == 1) {
           this.isLoggedIn = true
           this.currentUser = response[0]
           this._currentUser.next(response[0])
-          this.router.navigate(
+          await this.router.navigate([`/${this.isMobile ? "mobile/tabs" : "web"}/dashboard`])
+       /*    this.router.navigate(
             ['web/dashboard'], 
             {
             replaceUrl : true,
-          })
+          }) */
         }
 
         await this.storage.setData("user",response[0])

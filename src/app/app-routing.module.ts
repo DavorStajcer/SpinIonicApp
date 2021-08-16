@@ -25,15 +25,29 @@ const routes: Routes = [
     canActivate: [
       AuthGuard,
     ],
-    resolve : {
-      restaurant : RestourantResolverService
+    resolve: {
+      restaurant: RestourantResolverService
+    }
+  },
+  {
+    path: "mobile",
+    children: [
+      {
+        path: 'tabs',
+        loadChildren: () => import('./pages/mobile/tabs/tabs.module').then(m => m.TabsPageModule)
+      },
+    ],
+    canActivate: [
+      AuthGuard,
+    ],
+    resolve: {
+      restaurant: RestourantResolverService
     }
   },
   {
     path: '**',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
-
 
 ];
 @NgModule({

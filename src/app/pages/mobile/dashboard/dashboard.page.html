@@ -1,0 +1,14 @@
+<ion-toolbar>
+  <ion-searchbar (ionInput)="onSearchTermChanged($event)"></ion-searchbar>
+</ion-toolbar>
+<ion-content>
+  <ion-list >
+    <ion-card 
+    *ngFor="let restaurant of filteredRestaurants"
+     [routerLink] = '["/mobile/tabs/restaurant"]'
+     [queryParams] = '{id: restaurant.companyId}'
+     [ngStyle] = "{'background-image' : restaurant.image}">
+     {{restaurant.name}}
+    </ion-card>
+  </ion-list>
+</ion-content>
