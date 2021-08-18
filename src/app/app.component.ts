@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { CartService } from './services/cart/cart.service';
+import { StorageService } from './services/storage/storage.service';
 import { UserService } from './services/user/user.service';
 
 @Component({
@@ -15,11 +17,14 @@ export class AppComponent {
   public isMobile : boolean 
   private userAuthSubscription : Subscription = null
 
+
   constructor(
     private menuController: MenuController,
     private userService: UserService,
     private router: Router,
-    private platform : Platform
+    private platform : Platform,
+    private storage : StorageService,
+    private cartService : CartService,
   ) {
     this.onInitApp()
   }
@@ -30,12 +35,18 @@ export class AppComponent {
     if(await this.userService.isUserAuthenticated()){
       this.isLoggedIn = true
      if(this.isMobile){
-        await this.router.navigate([`/mobile/tabs/dashboard`])
+      await this.storage.getData(`${this.userService._currentUser.value.userId}` + 'cart')
+      .then((orders)=> {
+        this.cartService.orders.next(orders || [])
+      })
+
+      
+      await this.router.navigate([`/mobile/tabs/dashboard`])
      }
     }else
       this.observeAuthenticatedUser()
+    
   } 
-
 
   observeAuthenticatedUser(){
     this.userAuthSubscription = this.userService._currentUser.subscribe((value) => {

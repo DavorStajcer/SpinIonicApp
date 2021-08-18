@@ -5,5 +5,6 @@
 </ion-header>
 
 <ion-content>
-
+  <app-mobile-meal *ngFor="let mobileMenu of orders" [mobileMenu]="mobileMenu" style="height: 100%;"></app-mobile-meal>
+  <ion-button (click)="finishOrder()">PLACE ORDER</ion-button>
 </ion-content>

@@ -41,7 +41,7 @@ export class RestourantService {
   mobileMenuInCart : Array<MobileMenu> = []
 
   dishes: Array<Dish> = []
-
+  public isBottomNavBarHidden = new BehaviorSubject<boolean>(false)
 
 
 
@@ -69,11 +69,13 @@ export class RestourantService {
 
   async onRestaurantClicked(companyId: number) {
     await this.storage.setData("restaurantId", companyId)
+    this.isBottomNavBarHidden.next(true)
   }
 
   onMobileMenuClicked(clickedMobileMenu : MobileMenu){
     this.mobileMenuInCart.push(clickedMobileMenu)
   }
+
 
   onDishClicked(clickedDish: Dish) {
     let newList = []
@@ -355,15 +357,17 @@ export class RestourantService {
           "params": {
             "action": "forCompany",
             "restoranid": resId,
-            "tablename": "companyOrders"
-          }
+            
+          },
+          "tablename": "companyOrders"
         },
         {
           "query": "spOrdersQuery",
           "params": {
               "action": "all",
-              "tablename": "allOrders"
-          }
+              
+          },
+          "tablename": "allOrders"
       }
       ]
     }

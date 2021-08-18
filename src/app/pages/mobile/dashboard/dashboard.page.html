@@ -8,6 +8,7 @@
      [routerLink] = '["/mobile/tabs/restaurant"]'
      [queryParams] = '{id: restaurant.companyId}'
      [ngStyle] = "{'background-image' : restaurant.image}"
+     style="height: 100px;"
      (click)="onRestaurantClicked(restaurant.companyId)">
      {{restaurant.name}}
     </ion-card>

@@ -13,7 +13,7 @@
     <ion-grid>
       <ion-row>
         <ion-col  size=6 *ngFor="let mobileMenu of mobileMenus" [ngClass]= "{'inCart' : mobileMenu.inCart}">
-          <app-mobile-meal  [mobileMenu]="mobileMenu" (clickEmitter)="onMobileMealClicked($event)"></app-mobile-meal>
+          <app-mobile-meal  [mobileMenu]="mobileMenu" (clickEmitter)="onMobileMealClicked($event)" style="height: 100%;"></app-mobile-meal>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -22,4 +22,11 @@
 
 
   </div>
+
+  <ion-fab vertical="bottom" horizontal = "end" slot="fixed">
+    <ion-fab-button [disabled]="false" [routerLink]="['/mobile/tabs/cart']">
+      <ion-icon name="Cart"></ion-icon>
+    </ion-fab-button>
+    <ion-badge>{{orders?.lenght || 0}}</ion-badge>
+  </ion-fab>
 </ion-content>

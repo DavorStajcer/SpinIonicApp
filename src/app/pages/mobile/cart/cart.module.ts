@@ -8,6 +8,7 @@ import { CartPageRoutingModule } from './cart-routing.module';
 
 import { CartPage } from './cart.page';
 import { OrderComponent } from 'src/app/components/order/order.component';
+import { MobileMealComponent } from 'src/app/components/mobile/mobileMeal/mobile-meal/mobile-meal.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { OrderComponent } from 'src/app/components/order/order.component';
   declarations: [
     CartPage,
     OrderComponent,
+    MobileMealComponent,
   ]
 })
 export class CartPageModule {}

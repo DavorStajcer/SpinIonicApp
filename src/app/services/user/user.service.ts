@@ -26,6 +26,7 @@ export class UserService {
   currentUser: User;
   public isMobile : boolean;
 
+
   _currentUser : BehaviorSubject<User> = new BehaviorSubject(null)
 
   private _isSignUp: boolean = false;
