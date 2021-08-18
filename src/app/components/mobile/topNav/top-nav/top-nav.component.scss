@@ -1,0 +1,64 @@
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navPage {
+    width: 100%;
+    
+}
+
+ion-content {
+    background-color: blue !important;
+}
+
+.pageBackground{
+    background: red;
+    background-color: red;
+    color: red;
+}
+
+.navLogo {
+    width: 100%;
+    height: 10%;
+    background-color: #09B44D;
+}
+
+
+
+
+.float-container {
+    padding: 0px;
+    height: 100%;
+
+}
+
+.float-child {
+    width: 20%;
+    height: 100%;
+    float: left;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: bold;
+}  
+
+.navItem {
+    width: 20%;
+    height: 100%;
+    margin: 0%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.pressed{
+    color: green;
+    background: white;
+}
+
+.notPressed{
+    background-color: #09B44D;
+    color: white;
+    background: #09B44D;
+}

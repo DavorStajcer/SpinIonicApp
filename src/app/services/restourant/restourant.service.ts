@@ -9,6 +9,7 @@ import { OrderFilter } from 'src/app/util/orderFilter';
 import { Restaurant } from 'src/app/interfaces/restaurant';
 import { map } from 'rxjs/operators'
 import { MobileMenu } from 'src/app/interfaces/mobileMenu';
+import { StorageService } from '../storage/storage.service';
 
 
 
@@ -20,7 +21,8 @@ export class RestourantService {
 
   constructor(
     private httpClient: HttpClient,
-    private userService: UserService
+    private userService: UserService,
+    private storage: StorageService,
   ) {
 
     /*   this.filteredOrders.subscribe((newFilteredOrders)=>{
@@ -35,6 +37,8 @@ export class RestourantService {
   menus: BehaviorSubject<Array<Menu>> = new BehaviorSubject(null)
   restaurants: BehaviorSubject<Array<Restaurant>> = new BehaviorSubject(null)
   allOrders: Array<Order>
+  allUserOrders : BehaviorSubject<Array<Order>> = new BehaviorSubject(null)
+  mobileMenuInCart : Array<MobileMenu> = []
 
   dishes: Array<Dish> = []
 
@@ -62,6 +66,14 @@ export class RestourantService {
      if(searchTerm == undefined ||searchTerm == null || searchTerm == "")
  
    } */
+
+  async onRestaurantClicked(companyId: number) {
+    await this.storage.setData("restaurantId", companyId)
+  }
+
+  onMobileMenuClicked(clickedMobileMenu : MobileMenu){
+    this.mobileMenuInCart.push(clickedMobileMenu)
+  }
 
   onDishClicked(clickedDish: Dish) {
     let newList = []
@@ -114,7 +126,7 @@ export class RestourantService {
   }
 
 
-  addNewDish(name: string, description: string) {
+  async addNewDish(name: string, description: string) {
     let currentNotMenuDishes: Dish[] = this.dayDishesNotInMenu.get(this.currentDay).value
     currentNotMenuDishes.push({
       Bread: false,
@@ -194,6 +206,34 @@ export class RestourantService {
   }
 
 
+  onOrderClicked(order: Order) {
+
+  }
+
+
+
+  async addOrder(order: Order) {
+    let resId = await this.storage.getData("restaurantId")
+
+    let body = {
+      "db": "Food",
+      "queries": [
+        {
+          "query": "spOrder",
+          "params": {
+            "userid": "2",
+            "dishid": "1",
+            "day": "1"
+
+          }
+        }
+      ]
+    }
+
+
+
+  }
+
 
 
 
@@ -243,7 +283,7 @@ export class RestourantService {
   }
 
 
-  initRestaurantForCustomerUser() {
+  async initRestaurantForCustomerUser() {
     let body = {
       "db": "Food",
       "queries": [
@@ -260,36 +300,89 @@ export class RestourantService {
             "action": "all"
           },
           "tablename": "menus"
-        }
+        },
       ]
     }
 
-     return this.httpClient.post(this.url, body)
+    return await this.httpClient.post(this.url, body)
       .pipe(
         map(
           (response: {
             restaurants: Restaurant[],
-            menus: MobileMenu[]
+            menus: MobileMenu[],
+            orders: Order[]
           }) => {
-            if (response.restaurants.length > 0) {
+            console.log("INITIALIZING ORDERS")
+            if (response.restaurants.length > 0 && response.menus.length > 0) {
               let restourants: Array<Restaurant> = response.restaurants.map((restorant) => ({
                 companyId: restorant.companyId,
                 name: restorant.name,
                 menus: [1, 2, 3, 4, 5].map((day: number) => {
-                  return response.menus.filter((menu: MobileMenu) => {
-                    day == menu.day && menu.companyId == restorant.companyId
+                  /*    return response.menus.filter((menu: MobileMenu) => {
+                      let isForThisRestaurantAndDay = day == menu.day && menu.companyId == restorant.companyId
+                      return isForThisRestaurantAndDay
+                     }) */
+                  let restaurantMenus: MobileMenu[] = []
+
+                  response.menus.forEach((menu: MobileMenu) => {
+                    if(menu.inCart == undefined ||menu.inCart == null)
+                      menu.inCart = false
+                    if (day == menu.day && menu.companyId == restorant.companyId)
+                      restaurantMenus.push(menu)
                   })
+                  return restaurantMenus
                 }),
                 image: ""
               }))
-            console.log("Emitting got restaurants")  
-            console.log(`Restaurants : ${restourants}`)  
-            this.restaurants.next(restourants)
+              this.restaurants.next(restourants)
+
             }
           }
         )
-      )
-      
+      ).toPromise()
+
+  }
+
+
+  async initOrdersForRestaurantAndUser() {
+    let resId = await this.storage.getData("restaurantId")
+
+    let body = {
+      "db": "Food",
+      "queries": [
+        {
+          "query": "spOrdersQuery",
+          "params": {
+            "action": "forCompany",
+            "restoranid": resId,
+            "tablename": "companyOrders"
+          }
+        },
+        {
+          "query": "spOrdersQuery",
+          "params": {
+              "action": "all",
+              "tablename": "allOrders"
+          }
+      }
+      ]
+    }
+
+    return await this.httpClient.post(this.url, body)
+      .toPromise()
+      .then((response: any) => {
+        console.log("ORDERS RESPONSE :")
+        console.log(response)
+        let ordersForUser: Array<Order> = []
+        response.companyOrders.forEach((order) => {
+          if (order.naruciteljid == 5)
+            //this.userService._currentUser.value.userId)
+            ordersForUser.push(order)
+        })
+        let userOrders = OrderFilter.mapOrdersToUser(response.allOrders,this.userService._currentUser.value)
+        this.allUserOrders.next(userOrders) 
+      })
+
   }
 }
 

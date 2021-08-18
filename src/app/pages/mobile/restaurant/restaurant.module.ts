@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { RestaurantPageRoutingModule } from './restaurant-routing.module';
 
 import { RestaurantPage } from './restaurant.page';
+import { TopNavComponent } from 'src/app/components/mobile/topNav/top-nav/top-nav.component';
+import { OrderComponent } from 'src/app/components/order/order.component';
+import { MobileMealComponent } from 'src/app/components/mobile/mobileMeal/mobile-meal/mobile-meal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +18,10 @@ import { RestaurantPage } from './restaurant.page';
     IonicModule,
     RestaurantPageRoutingModule
   ],
-  declarations: [RestaurantPage]
+  declarations: [
+    RestaurantPage,
+    TopNavComponent ,
+    MobileMealComponent,
+  ]
 })
 export class RestaurantPageModule {}

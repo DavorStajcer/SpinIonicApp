@@ -2,6 +2,7 @@
 import { Dish } from "../interfaces/dish";
 import { Menu } from "../interfaces/menu";
 import { Order } from "../interfaces/order";
+import { User } from "../interfaces/user";
 
  export abstract class OrderFilter {
 
@@ -32,6 +33,15 @@ import { Order } from "../interfaces/order";
             })
         })
         return dishesFromMenu
+    }
+
+    public static mapOrdersToUser(orders : Array<Order>, user : User){
+        let userOrders : Array<Order> = []
+        orders.forEach((order)=>{
+            if(order.naruciteljId == user.userId)
+                userOrders.push(order)
+        })
+        return userOrders
     }
 
     public static filterChosenDishes(allDishes : Array<Dish>,menuDishes : Array<Dish>){

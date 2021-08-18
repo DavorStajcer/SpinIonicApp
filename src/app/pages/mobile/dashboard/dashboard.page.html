@@ -7,7 +7,8 @@
     *ngFor="let restaurant of filteredRestaurants"
      [routerLink] = '["/mobile/tabs/restaurant"]'
      [queryParams] = '{id: restaurant.companyId}'
-     [ngStyle] = "{'background-image' : restaurant.image}">
+     [ngStyle] = "{'background-image' : restaurant.image}"
+     (click)="onRestaurantClicked(restaurant.companyId)">
      {{restaurant.name}}
     </ion-card>
   </ion-list>

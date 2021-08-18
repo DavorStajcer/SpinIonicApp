@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CartPageRoutingModule } from './cart-routing.module';
 
 import { CartPage } from './cart.page';
+import { OrderComponent } from 'src/app/components/order/order.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,9 @@ import { CartPage } from './cart.page';
     IonicModule,
     CartPageRoutingModule
   ],
-  declarations: [CartPage]
+  declarations: [
+    CartPage,
+    OrderComponent,
+  ]
 })
 export class CartPageModule {}

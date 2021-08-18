@@ -1,0 +1,9 @@
+<ion-content class="navPage">
+<div class="float-container">
+  <div class="float-child"  [ngClass]= "{ 'notPressed': day != currentDay,'pressed':day == currentDay}" *ngFor = "let day of days" (click) = "changeDay(day)">
+    <div class="child">
+      {{daysString[day]}}
+    </div>
+  </div>
+</div>  
+</ion-content>

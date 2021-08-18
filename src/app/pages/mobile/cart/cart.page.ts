@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RestourantService } from 'src/app/services/restourant/restourant.service';
 
 @Component({
   selector: 'app-cart',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private restourantService : RestourantService,
+  ) { }
 
   ngOnInit() {
+    this.restourantService.orders.subscribe((orders)=>{
+      
+    })
   }
 
 }

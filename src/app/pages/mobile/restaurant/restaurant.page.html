@@ -1,9 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>restaurant</ion-title>
+    <ion-title>{{restaurant.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content style="padding-left: 5%;padding-right: 5%;">
+  <div style="height: 15%;width: 100%;background-color: aqua;">
+    <app-top-nav (emitter)="onDayChanged($event)"></app-top-nav>
+  </div>
+  <div style="height: 85%;width: 100%;overflow-y: auto;">
 
-<ion-content>
 
+    <ion-grid>
+      <ion-row>
+        <ion-col  size=6 *ngFor="let mobileMenu of mobileMenus" [ngClass]= "{'inCart' : mobileMenu.inCart}">
+          <app-mobile-meal  [mobileMenu]="mobileMenu" (clickEmitter)="onMobileMealClicked($event)"></app-mobile-meal>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+
+
+  </div>
 </ion-content>

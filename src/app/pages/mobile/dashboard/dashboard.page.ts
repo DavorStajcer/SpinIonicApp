@@ -46,4 +46,8 @@ export class DashboardPage implements OnInit {
   ngOnInit() {
   }
 
+  async onRestaurantClicked(companyId : number){
+    await this.restaurantService.onRestaurantClicked(companyId)
+  }
+
 }
