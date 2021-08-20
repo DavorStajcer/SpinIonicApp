@@ -38,7 +38,7 @@ export class UserService {
   }
 
 
-  url: string = "https://jupitermobiletest.jupiter-software.com:30081/jupitermobilex/gen/api/food"
+  private url: string = "https://jupitermobiletest.jupiter-software.com:30081/jupitermobilex/gen/api/food"
 
   constructor(
     private httpClient: HttpClient,
@@ -91,10 +91,10 @@ export class UserService {
           "query": "spUsersAzur",
           "params": {
             "action": "login",
-          /*   "email": `${email}`,
-            "password": `${password}` */
-            "email" : "vedran.prpic1@gmail.com",
-            "password" : "lozinka"
+            "email": `${email}`,
+            "password": `${password}` 
+       /*      "email" : "vedran.prpic1@gmail.com",
+            "password" : "lozinka" */
           }
         }
       ]

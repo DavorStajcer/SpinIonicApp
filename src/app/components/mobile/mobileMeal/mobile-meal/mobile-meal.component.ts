@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { MobileMenu } from 'src/app/interfaces/mobileMenu';
+import { MobileDish } from 'src/app/interfaces/mobileMenu';
 
 @Component({
   selector: 'app-mobile-meal',
@@ -11,13 +11,13 @@ export class MobileMealComponent implements OnInit {
   constructor() { }
 
 
-  @Input() mobileMenu : MobileMenu
-  @Output() clickEmitter : EventEmitter<MobileMenu> = new EventEmitter()
+  @Input() mobileDish : MobileDish
+  @Output() clickEmitter : EventEmitter<MobileDish> = new EventEmitter()
 
   ngOnInit() {}
 
   onMobileMealClicked(){
-    this.clickEmitter.emit(this.mobileMenu)
+    this.clickEmitter.emit(this.mobileDish)
   }
 
 }

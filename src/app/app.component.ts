@@ -6,6 +6,12 @@ import { CartService } from './services/cart/cart.service';
 import { StorageService } from './services/storage/storage.service';
 import { UserService } from './services/user/user.service';
 
+enum MenuPage {
+  dashboard,
+  menu,
+  newdish
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -37,7 +43,7 @@ export class AppComponent {
      if(this.isMobile){
       await this.storage.getData(`${this.userService._currentUser.value.userId}` + 'cart')
       .then((orders)=> {
-        this.cartService.orders.next(orders || [])
+        this.cartService.dishesInCart.next(orders || [])
       })
 
       
@@ -59,6 +65,7 @@ export class AppComponent {
     await this.userService.logOut()
     if(this.userAuthSubscription == null)
       this.observeAuthenticatedUser()
+    await  this.router.navigate(['/login'])  
 
   }
 
@@ -66,8 +73,18 @@ export class AppComponent {
     this.menuController.open('first');
   }
 
-  closeMenu() {
-    this.menuController.close('first');
+  async closeMenu(page : number) {
+    await this.menuController.close('first');
+    await this.navigateToPage(page)
+  }
+
+  private async navigateToPage(page : number){
+    let navigationUrl = ['/mobile/tabs/dashboard']
+    if(page == MenuPage.menu.valueOf())
+      navigationUrl = ['/mobile/tabs/restaurant']
+    if(page == MenuPage.newdish.valueOf())
+      navigationUrl = ['/mobile/tabs/profile']
+    await this.router.navigate(navigationUrl)  
   }
 
 }

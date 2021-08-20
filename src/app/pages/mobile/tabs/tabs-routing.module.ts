@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/guards/auth/auth.guard';
+import { CartResolverService } from 'src/app/resolvers/mobile/cart/cart.service';
+import { OrdersResolverService } from 'src/app/resolvers/mobile/orders/orders.service';
 import { RestourantResolverService } from 'src/app/resolvers/restourant/restourant.service';
 
 import { TabsPage } from './tabs.page';
@@ -31,7 +33,9 @@ const routes: Routes = [
       AuthGuard,
     ],
     resolve: {
-      restaurant: RestourantResolverService
+      restaurant: RestourantResolverService,
+      cart: CartResolverService,
+      orders : OrdersResolverService,
     }
   }
 ];

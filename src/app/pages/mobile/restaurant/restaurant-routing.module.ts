@@ -12,9 +12,6 @@ const routes: Routes = [
     canActivate: [
       AuthGuard,
     ],
-    resolve: {
-      orders: OrdersResolverService,
-    }
   }
 ];
 

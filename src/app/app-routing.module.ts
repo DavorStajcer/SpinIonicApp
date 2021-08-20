@@ -36,6 +36,10 @@ const routes: Routes = [
         path: 'tabs',
         loadChildren: () => import('./pages/mobile/tabs/tabs.module').then(m => m.TabsPageModule)
       },
+      {
+        path: 'orders',
+        loadChildren: () => import('./pages/mobile/orders/orders.module').then( m => m.OrdersPageModule)
+      },
     ],
     canActivate: [
       AuthGuard,
@@ -48,6 +52,8 @@ const routes: Routes = [
     path: '**',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
+
+
 
 ];
 @NgModule({

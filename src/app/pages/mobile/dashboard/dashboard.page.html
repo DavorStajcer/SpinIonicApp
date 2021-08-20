@@ -1,16 +1,22 @@
-<ion-toolbar>
-  <ion-searchbar (ionInput)="onSearchTermChanged($event)"></ion-searchbar>
-</ion-toolbar>
-<ion-content>
-  <ion-list >
-    <ion-card 
-    *ngFor="let restaurant of filteredRestaurants"
-     [routerLink] = '["/mobile/tabs/restaurant"]'
-     [queryParams] = '{id: restaurant.companyId}'
-     [ngStyle] = "{'background-image' : restaurant.image}"
-     style="height: 100px;"
-     (click)="onRestaurantClicked(restaurant.companyId)">
-     {{restaurant.name}}
-    </ion-card>
-  </ion-list>
-</ion-content>
+<div class="dashboardPage">
+  <ion-toolbar>
+    <div class="centerDiv">
+      <ion-searchbar style="width: 50%;text-align: center;" (ionInput)="onSearchTermChanged($event)"></ion-searchbar>
+    </div>
+  </ion-toolbar>
+  <ion-content>
+
+    <ion-list>
+      <ion-card *ngFor="let restaurant of filteredRestaurants" [routerLink]='["/mobile/tabs/restaurant"]'
+        [queryParams]='{id: restaurant.companyId}' [ngStyle]="{'background-image' : restaurant.image}"
+        style="height: 100px;" (click)="onRestaurantClicked(restaurant.companyId)">
+        <div class="centerDiv ">
+          <h3 class="restaurantTitle"> {{restaurant.name}}</h3>
+        </div>
+      </ion-card>
+    </ion-list>
+
+  </ion-content>
+
+
+</div>

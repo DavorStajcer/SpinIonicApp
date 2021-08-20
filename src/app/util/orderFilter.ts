@@ -1,6 +1,7 @@
 
 import { Dish } from "../interfaces/dish";
 import { Menu } from "../interfaces/menu";
+import { MobileOrder } from "../interfaces/mobileOrder";
 import { Order } from "../interfaces/order";
 import { User } from "../interfaces/user";
 
@@ -38,7 +39,16 @@ import { User } from "../interfaces/user";
     public static mapOrdersToUser(orders : Array<Order>, user : User){
         let userOrders : Array<Order> = []
         orders.forEach((order)=>{
-            if(order.naruciteljId == user.userId)
+            if(order.naruciteljid == user.userId)
+                userOrders.push(order)
+        })
+        return userOrders
+    }
+
+    public static mapMobileOrdersToUser(orders : Array<MobileOrder>, user : User){
+        let userOrders : Array<MobileOrder> = []
+        orders.forEach((order)=>{
+            if(order.orderCompanyUserId == user.userId)
                 userOrders.push(order)
         })
         return userOrders

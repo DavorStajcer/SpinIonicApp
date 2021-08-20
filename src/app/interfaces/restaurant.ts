@@ -1,9 +1,9 @@
 import { Menu } from "./menu";
-import { MobileMenu } from "./mobileMenu";
+import { MobileDish } from "./mobileMenu";
 
 export interface Restaurant {
     companyId : number,
     name : string,
-    menus? : MobileMenu[][],
+    menus? : MobileDish[][],
     image? : string
 }

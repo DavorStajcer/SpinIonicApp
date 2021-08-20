@@ -1,11 +1,15 @@
 <ion-app>
   <ion-menu side="end" menuId="first" contentId="main-content">
     <ion-content>
-      <ion-list>
-        <ion-item (click) = "closeMenu()" [routerLink]="['/web/dashboard']">Dashboard</ion-item>
-        <ion-item (click) = "closeMenu()" [routerLink]="['/web/menu']">Menu</ion-item>
-        <ion-item (click) = "closeMenu()" [routerLink]="['/web/newDish']">New dish</ion-item>
-        <ion-item  (click) = "logUserOut()" [routerLink]="['']">Log out</ion-item>
+      <ion-list> 
+        <ion-item (click) = "closeMenu(0)" >Dashboard</ion-item>
+        <ion-item (click) = "closeMenu(1)" >Menu</ion-item>
+        <ion-item (click) = "closeMenu(2)" >New dish</ion-item>
+        <ion-item  (click) = "logUserOut()">Log out</ion-item>
+<!--         <ion-item (click) = "closeMenu(0)" [routerLink]= "['/mobile/tabs/dashboard']">Dashboard</ion-item>
+        <ion-item (click) = "closeMenu(1)" [routerLink]="['/web/menu']">Menu</ion-item>
+        <ion-item (click) = "closeMenu(2)" [routerLink]="['/web/newDish']">New dish</ion-item>
+        <ion-item  (click) = "logUserOut()" [routerLink]="['']">Log out</ion-item> -->
       </ion-list>
     </ion-content>
   </ion-menu>

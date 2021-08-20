@@ -9,7 +9,7 @@ export interface Order {
     bread : boolean,
     narucitelj : string,
     firma : number,
-    naruciteljId : number
-
- 
+    naruciteljid : number
 }
+
+

@@ -8,7 +8,7 @@ import { Dish } from 'src/app/interfaces/dish';
 import { OrderFilter } from 'src/app/util/orderFilter';
 import { Restaurant } from 'src/app/interfaces/restaurant';
 import { map } from 'rxjs/operators'
-import { MobileMenu } from 'src/app/interfaces/mobileMenu';
+import { MobileDish } from 'src/app/interfaces/mobileMenu';
 import { StorageService } from '../storage/storage.service';
 
 
@@ -38,7 +38,7 @@ export class RestourantService {
   restaurants: BehaviorSubject<Array<Restaurant>> = new BehaviorSubject(null)
   allOrders: Array<Order>
   allUserOrders : BehaviorSubject<Array<Order>> = new BehaviorSubject(null)
-  mobileMenuInCart : Array<MobileMenu> = []
+  mobileMenuInCart : Array<MobileDish> = []
 
   dishes: Array<Dish> = []
   public isBottomNavBarHidden = new BehaviorSubject<boolean>(false)
@@ -72,7 +72,7 @@ export class RestourantService {
     this.isBottomNavBarHidden.next(true)
   }
 
-  onMobileMenuClicked(clickedMobileMenu : MobileMenu){
+  onMobileMenuClicked(clickedMobileMenu : MobileDish){
     this.mobileMenuInCart.push(clickedMobileMenu)
   }
 
@@ -311,7 +311,7 @@ export class RestourantService {
         map(
           (response: {
             restaurants: Restaurant[],
-            menus: MobileMenu[],
+            menus: MobileDish[],
             orders: Order[]
           }) => {
             console.log("INITIALIZING ORDERS")
@@ -324,9 +324,9 @@ export class RestourantService {
                       let isForThisRestaurantAndDay = day == menu.day && menu.companyId == restorant.companyId
                       return isForThisRestaurantAndDay
                      }) */
-                  let restaurantMenus: MobileMenu[] = []
+                  let restaurantMenus: MobileDish[] = []
 
-                  response.menus.forEach((menu: MobileMenu) => {
+                  response.menus.forEach((menu: MobileDish) => {
                     if(menu.inCart == undefined ||menu.inCart == null)
                       menu.inCart = false
                     if (day == menu.day && menu.companyId == restorant.companyId)
