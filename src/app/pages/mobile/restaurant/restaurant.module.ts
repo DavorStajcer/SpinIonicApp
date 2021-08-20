@@ -10,18 +10,19 @@ import { RestaurantPage } from './restaurant.page';
 import { TopNavComponent } from 'src/app/components/mobile/topNav/top-nav/top-nav.component';
 import { OrderComponent } from 'src/app/components/order/order.component';
 import { MobileMealComponent } from 'src/app/components/mobile/mobileMeal/mobile-meal/mobile-meal.component';
+import { ComponentModule } from 'src/app/components/component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RestaurantPageRoutingModule
+    RestaurantPageRoutingModule,
+    ComponentModule
   ],
   declarations: [
     RestaurantPage,
     TopNavComponent ,
-    MobileMealComponent,
   ]
 })
 export class RestaurantPageModule {}

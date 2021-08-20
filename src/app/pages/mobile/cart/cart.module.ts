@@ -9,18 +9,19 @@ import { CartPageRoutingModule } from './cart-routing.module';
 import { CartPage } from './cart.page';
 import { OrderComponent } from 'src/app/components/order/order.component';
 import { MobileMealComponent } from 'src/app/components/mobile/mobileMeal/mobile-meal/mobile-meal.component';
+import { ComponentModule } from 'src/app/components/component/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CartPageRoutingModule
+    CartPageRoutingModule,
+    ComponentModule
   ],
   declarations: [
     CartPage,
     OrderComponent,
-    MobileMealComponent,
   ]
 })
 export class CartPageModule {}
