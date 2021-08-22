@@ -16,18 +16,31 @@ export class DashboardPage implements OnInit {
 
   private daysStringCro = ["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"]
   private fetchedOrders : Array<Order> = []
-  currentlyDisplayedOrders : Array<Order> = []
+  private ordersForCurrentDay : Array<Order> = []
+  public filteredOrders : Array<Order> = []
   private currentDay : number = 0
+  public searchTerm : string
 
-  constructor(private router : Router,private restaurantService : RestourantService) { 
+  constructor(
+    private router : Router,
+    private restaurantService : RestourantService,
+    ) { 
     this.restaurantService.orders.subscribe((orders : Array<Order>) => {
         this.fetchedOrders = orders
-        this.currentlyDisplayedOrders = OrderFilter.mapOrdersToDay(orders,this.daysStringCro[this.currentDay])
-         this.currentlyDisplayedOrders.forEach((order)=>{
+        this.ordersForCurrentDay = OrderFilter.mapOrdersToDay(orders,this.daysStringCro[this.currentDay])
+        this.ordersForCurrentDay.forEach((order)=>{
           console.log(order)
         }) 
-        
+        this.filteredOrders = OrderFilter.filterOrdersForSearchTerm(this.ordersForCurrentDay,this.searchTerm)
     })
+  }
+
+  searchEventFired(search : any){
+    console.log(search)
+    let searchTerm = search.target.value
+    console.log(searchTerm)
+    this.searchTerm = searchTerm
+    this.filteredOrders = OrderFilter.filterOrdersForSearchTerm(this.ordersForCurrentDay,this.searchTerm)
   }
 
 
@@ -37,8 +50,9 @@ export class DashboardPage implements OnInit {
 
   onDayChanged(day : number){
     this.currentDay = day
-    this.currentlyDisplayedOrders = OrderFilter.mapOrdersToDay(this.fetchedOrders,this.daysStringCro[this.currentDay])
-    this.currentlyDisplayedOrders.forEach((order)=>{
+    this.ordersForCurrentDay = OrderFilter.mapOrdersToDay(this.fetchedOrders,this.daysStringCro[this.currentDay])
+    this.filteredOrders = OrderFilter.filterOrdersForSearchTerm(this.ordersForCurrentDay,this.searchTerm)
+    this.ordersForCurrentDay.forEach((order)=>{
       console.log(order)
     }) 
       console.log(`Day got in dashboard -> ${day}`)

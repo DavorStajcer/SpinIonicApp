@@ -24,10 +24,10 @@ export class UserService {
   isAsRestourant: boolean = false;
   authMode: AuthMode = AuthMode.logIn;
   currentUser: User;
-  public isMobile : boolean;
+  public isMobile: boolean;
 
 
-  _currentUser : BehaviorSubject<User> = new BehaviorSubject(null)
+  _currentUser: BehaviorSubject<User> = new BehaviorSubject(null)
 
   private _isSignUp: boolean = false;
   get isSignUp(): boolean {
@@ -43,13 +43,13 @@ export class UserService {
   constructor(
     private httpClient: HttpClient,
     private router: Router,
-    private storage : StorageService,
+    private storage: StorageService,
   ) {
 
   }
 
 
-  getUserCompany(){
+  getUserCompany() {
     return this._currentUser.getValue().companyId
   }
 
@@ -68,14 +68,14 @@ export class UserService {
     console.log(this.authMode)
   }
 
-  async logOut(){
+  async logOut() {
     this._currentUser.next(null)
     await this.storage.removeData("user")
   }
 
-  async isUserAuthenticated(){
-    let user : User = await this.storage.getData("user") as User
-    if(user == undefined || user == null)
+  async isUserAuthenticated() {
+    let user: User = await this.storage.getData("user") as User
+    if (user == undefined || user == null)
       return false
     this._currentUser.next(user)
     return true
@@ -92,9 +92,9 @@ export class UserService {
           "params": {
             "action": "login",
             "email": `${email}`,
-            "password": `${password}` 
-       /*      "email" : "vedran.prpic1@gmail.com",
-            "password" : "lozinka" */
+            "password": `${password}`
+            /*    "email": "vedran.prpic1@gmail.com",
+               "password": "lozinka" */
           }
         }
       ]
@@ -107,14 +107,14 @@ export class UserService {
           this.currentUser = response[0]
           this._currentUser.next(response[0])
           await this.router.navigate([`/${this.isMobile ? "mobile/tabs" : "web"}/dashboard`])
-       /*    this.router.navigate(
-            ['web/dashboard'], 
-            {
-            replaceUrl : true,
-          }) */
+          /*    this.router.navigate(
+               ['web/dashboard'], 
+               {
+               replaceUrl : true,
+             }) */
         }
 
-        await this.storage.setData("user",response[0])
+        await this.storage.setData("user", response[0])
 
       }, error => {
         console.log("on error")
@@ -154,7 +154,7 @@ export class UserService {
 
   }
 
-  private  registerRestoraunt(companyName: string, userId: number) {
+  private registerRestoraunt(companyName: string, userId: number) {
 
     let body = {
       "db": "Food",

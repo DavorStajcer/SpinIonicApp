@@ -14,8 +14,11 @@ import { OrderFilter } from 'src/app/util/orderFilter';
 })
 export class MenuPage implements OnInit {
 
-  public dishesInMenu: Dish[] = []
+  public allDishesInMenu: Dish[] = []
   public dishesNotInMenu: Dish[] = []
+
+  public filteredDishesInMenu : Dish[] = []
+  public searchTerm : string
 
   private menuDishesSubscription : Subscription
   private notMenuDishesSubscription : Subscription
@@ -44,8 +47,17 @@ export class MenuPage implements OnInit {
       this.dishesNotInMenu = dishes
     })
     this.menuDishesSubscription = this.restaurantService.dayDishesInMenu.get(this.restaurantService.currentDay).subscribe((dishes : Array<Dish>)=> {
-      this.dishesInMenu = dishes
+      this.allDishesInMenu = dishes
+      this.filteredDishesInMenu = OrderFilter.filterDishForSearchTerm(this.allDishesInMenu,this.searchTerm)
     })
+  }
+
+  searchEventFired(search : any){
+    console.log(search)
+    let searchTerm = search.target.value
+    console.log(searchTerm)
+    this.searchTerm = searchTerm
+    this.filteredDishesInMenu = OrderFilter.filterDishForSearchTerm(this.allDishesInMenu,this.searchTerm)
   }
 
 

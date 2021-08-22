@@ -37,8 +37,8 @@ export class RestourantService {
   menus: BehaviorSubject<Array<Menu>> = new BehaviorSubject(null)
   restaurants: BehaviorSubject<Array<Restaurant>> = new BehaviorSubject(null)
   allOrders: Array<Order>
-  allUserOrders : BehaviorSubject<Array<Order>> = new BehaviorSubject(null)
-  mobileMenuInCart : Array<MobileDish> = []
+  allUserOrders: BehaviorSubject<Array<Order>> = new BehaviorSubject(null)
+  mobileMenuInCart: Array<MobileDish> = []
 
   dishes: Array<Dish> = []
   public isBottomNavBarHidden = new BehaviorSubject<boolean>(false)
@@ -72,7 +72,7 @@ export class RestourantService {
     this.isBottomNavBarHidden.next(true)
   }
 
-  onMobileMenuClicked(clickedMobileMenu : MobileDish){
+  onMobileMenuClicked(clickedMobileMenu: MobileDish) {
     this.mobileMenuInCart.push(clickedMobileMenu)
   }
 
@@ -89,9 +89,10 @@ export class RestourantService {
         newList.push(dish)
 
     })
+
     this.dayDishesInMenu.get(this.currentDay).next(dishesInMenu)
     this.dayDishesNotInMenu.get(this.currentDay).next(newList)
-  }
+  } 
 
   onDishFromMenuClicked(clickedDish: Dish) {
     let newList = []
@@ -105,8 +106,9 @@ export class RestourantService {
         newList.push(dish)
 
     })
-    this.dayDishesNotInMenu.get(this.currentDay).next(dishesNotInMenu)
-    this.dayDishesInMenu.get(this.currentDay).next(newList)
+    for (let i = 0; i < this.dayDishesNotInMenu.size; i++)
+
+      this.dayDishesInMenu.get(this.currentDay).next(newList)
 
   }
 
@@ -129,15 +131,7 @@ export class RestourantService {
 
 
   async addNewDish(name: string, description: string) {
-    let currentNotMenuDishes: Dish[] = this.dayDishesNotInMenu.get(this.currentDay).value
-    currentNotMenuDishes.push({
-      Bread: false,
-      Description: description,
-      DishId: -1,
-      Name: name,
-      Salad: false,
-      Soup: false,
-    })
+
 
     let body = {
       "db": "Food",
@@ -160,6 +154,17 @@ export class RestourantService {
     this.httpClient.post(this.url, body)
       .subscribe((response: any) => {
         console.log(`Inserted dish into menu -> ${response}`)
+        let currentNotMenuDishes: Dish[] = this.dayDishesNotInMenu.get(this.currentDay).value
+        currentNotMenuDishes.push({
+          Bread: false,
+          Description: description,
+          DishId: -1,
+          Name: name,
+          Salad: false,
+          Soup: false,
+        })
+        for (let i = 0; i < this.dayDishesNotInMenu.size; i++)
+          this.dayDishesNotInMenu.get(i).next(currentNotMenuDishes)
       })
   }
 
@@ -272,6 +277,8 @@ export class RestourantService {
       ]
     }
 
+
+
     return this.httpClient.post(this.url, body)
       .toPromise()
       .then((result: any) => {
@@ -327,7 +334,7 @@ export class RestourantService {
                   let restaurantMenus: MobileDish[] = []
 
                   response.menus.forEach((menu: MobileDish) => {
-                    if(menu.inCart == undefined ||menu.inCart == null)
+                    if (menu.inCart == undefined || menu.inCart == null)
                       menu.inCart = false
                     if (day == menu.day && menu.companyId == restorant.companyId)
                       restaurantMenus.push(menu)
@@ -357,18 +364,18 @@ export class RestourantService {
           "params": {
             "action": "forCompany",
             "restoranid": resId,
-            
+
           },
           "tablename": "companyOrders"
         },
         {
           "query": "spOrdersQuery",
           "params": {
-              "action": "all",
-              
+            "action": "all",
+
           },
           "tablename": "allOrders"
-      }
+        }
       ]
     }
 
@@ -383,8 +390,8 @@ export class RestourantService {
             //this.userService._currentUser.value.userId)
             ordersForUser.push(order)
         })
-        let userOrders = OrderFilter.mapOrdersToUser(response.allOrders,this.userService._currentUser.value)
-        this.allUserOrders.next(userOrders) 
+        let userOrders = OrderFilter.mapOrdersToUser(response.allOrders, this.userService._currentUser.value)
+        this.allUserOrders.next(userOrders)
       })
 
   }

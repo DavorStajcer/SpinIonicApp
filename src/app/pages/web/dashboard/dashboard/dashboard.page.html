@@ -8,14 +8,14 @@
      <div style="height: 20%;">
        <div style="display: flex; flex-wrap: nowrap;">
          <h4 style="width: 50%;text-align: center;">OPRDERS OVERVIEW</h4>
-         <ion-searchbar style="width: 50%;"></ion-searchbar>
+         <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="searchEventFired($event)" style="width: 50%;"></ion-searchbar>
        </div>
 
      </div>
      <div style="height: 70%;overflow-y: auto; width: 99%;" >
         <ion-grid>
           <ion-row>
-            <ion-col size = 6 *ngFor="let order of currentlyDisplayedOrders" >
+            <ion-col size = 6 *ngFor="let order of filteredOrders" >
               <app-order [order] = "order"></app-order>
             </ion-col>
           </ion-row>

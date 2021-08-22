@@ -21,7 +21,7 @@ import { OrderComponent } from 'src/app/components/order/order.component';
   declarations: [
     DashboardPage,
     OrderComponent,
-      SideNavComponent,
+    SideNavComponent,
     ]
 })
 export class DashboardPageModule {}

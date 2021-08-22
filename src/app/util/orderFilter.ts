@@ -54,6 +54,27 @@ import { User } from "../interfaces/user";
         return userOrders
     }
 
+    public static filterOrdersForSearchTerm(order : Array<Order>,searchTerm : string) : Order[]{
+        let filteredOrders : Order[] = []
+        if(searchTerm == null || searchTerm == undefined ||searchTerm == "")
+            return [...order]
+        order.forEach((dish)=>{
+            if(dish.jelo.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
+                filteredOrders.push(dish)
+        })
+        return filteredOrders    
+    }
+    public static filterDishForSearchTerm(dish : Array<Dish>,searchTerm : string) : Dish[]{
+        let filteredDishes : Dish[] = []
+        if(searchTerm == null || searchTerm == undefined ||searchTerm == "")
+            return [...dish]
+        dish.forEach((dish)=>{
+            if(dish.Name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
+                filteredDishes.push(dish)
+        })
+        return filteredDishes    
+    }
+
     public static filterChosenDishes(allDishes : Array<Dish>,menuDishes : Array<Dish>){
         let dishesNotInMenu : Dish[] = []
         allDishes.forEach((dish)=>{
