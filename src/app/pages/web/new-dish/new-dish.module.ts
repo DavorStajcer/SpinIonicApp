@@ -12,6 +12,7 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { environment } from 'src/environments/environment';
 import { AngularFireStorageModule } from "@angular/fire/storage";
 import { AngularFireModule } from '@angular/fire';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { AngularFireModule } from '@angular/fire';
     File,
     Camera,
     ImagePicker,
+    AngularFirestore
     
   ],
   declarations: [NewDishPage, SideNavComponent]

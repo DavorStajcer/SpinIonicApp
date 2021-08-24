@@ -18,7 +18,7 @@
     </div>
 
     <div class="centerDiv" style="height: 87%;margin: 0px;">
-      <h3 *ngIf = "dishesInCart.length == 0" >You currently have no orders</h3>
+      <h3 *ngIf = "dishesInCart.length == 0" >You currently have no meals in the cart</h3>
       <ion-list *ngIf = "dishesInCart.length != 0" class="dishesList">
         <app-mobile-meal *ngFor="let dish of dishesInCart" [mobileDish]="dish"></app-mobile-meal>
       </ion-list> 

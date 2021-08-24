@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+
 
 
 
@@ -28,6 +28,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 /*     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     AngularFirestoreModule, */
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule, FormsModule,

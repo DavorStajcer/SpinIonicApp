@@ -11,10 +11,14 @@ export class MealComponent implements OnInit {
 
   constructor() { }
 
+  public defaultImgUrl : string = "/assets/images/meal.png"
   @Input() dish : Dish
   @Output() clickEmitter : EventEmitter<Dish> = new EventEmitter()
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(this.dish.imageUrl == undefined || this.dish.imageUrl == null)
+      this.dish.imageUrl = this.defaultImgUrl
+  }
 
   onDishClicked(){
     this.clickEmitter.emit(this.dish)

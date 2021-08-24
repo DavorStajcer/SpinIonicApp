@@ -1,7 +1,7 @@
 
 <ion-card style="width: 100%;display:flex;flex-wrap: nowrap;margin: 0px;" (click)="onMobileMealClicked()">
-  <ion-img  src="/assets/images/meal.png" style="height: 100%;"></ion-img>
-  <div style="margin: auto;padding: 8px;">
-      <h5 style="text-align: center;color: green;height: 100%;">{{mobileDish.name}}</h5>
+  <ion-img  [src]="mobileDish.imageUrl" style="height: 150px;width: 150px;"></ion-img>
+  <div style="margin: auto;padding: 8px;height: 100%;width: 200px;">
+      <h5 style="text-align: center;color: green;height: +50px;width: 100px;">{{mobileDish.name}}</h5>
   </div>
 </ion-card>

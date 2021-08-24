@@ -9,5 +9,6 @@ export interface MobileOrder {
     orderCompanyUserId: number
     salad: boolean
     soup: boolean
-    userName: string
+    userName: string,
+    imageUrl? : string
 }

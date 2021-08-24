@@ -8,10 +8,14 @@ import { MobileOrder } from 'src/app/interfaces/mobileOrder';
 })
 export class MobileOrderComponent implements OnInit {
 
+  public defaultImgUrl : string = "/assets/images/meal.png"
   @Input() mobileOrder : MobileOrder
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(this.mobileOrder.imageUrl == undefined || this.mobileOrder.imageUrl == null)
+    this.mobileOrder.imageUrl = this.defaultImgUrl
+  }
 
 }

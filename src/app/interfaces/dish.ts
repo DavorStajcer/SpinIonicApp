@@ -5,4 +5,5 @@ export interface Dish {
     Name : string,
     Salad : boolean,
     Soup : boolean,
+    imageUrl? : string
 }
