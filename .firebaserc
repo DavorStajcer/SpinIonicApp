@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "spinacademyproject"
+  },
+  "targets": {
+    "spinacademyproject": {
+      "hosting": {
+        "app": [
+          "spinacademyproject"
+        ]
+      }
+    }
   }
 }

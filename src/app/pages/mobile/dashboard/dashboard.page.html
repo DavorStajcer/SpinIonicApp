@@ -7,13 +7,18 @@
   <ion-content>
 
     <ion-list>
-      <ion-card *ngFor="let restaurant of filteredRestaurants" [routerLink]='["/mobile/tabs/restaurant"]'
+ <!--      <ion-card *ngFor="let restaurant of filteredRestaurants" [routerLink]='["/mobile/tabs/restaurant"]'
         [queryParams]='{id: restaurant.companyId}' [ngStyle]="{'background-image' : restaurant.image}"
         style="height: 100px;" (click)="onRestaurantClicked(restaurant.companyId)">
         <div class="centerDiv ">
           <h3 class="restaurantTitle"> {{restaurant.name}}</h3>
         </div>
-      </ion-card>
+      </ion-card> -->
+      <ion-card style="height: 150px;" *ngFor="let restaurant of filteredRestaurants" [routerLink]='["/mobile/tabs/restaurant"]'
+      [queryParams]='{id: restaurant.companyId}'>
+        <img src={{restaurant.image}}>
+        <div class="card-title">{{restaurant.name}}</div>
+    </ion-card>
     </ion-list>
 
   </ion-content>

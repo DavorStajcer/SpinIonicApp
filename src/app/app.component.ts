@@ -55,7 +55,7 @@ export class AppComponent {
       await this.router.navigate([`/mobile/tabs/dashboard`])
     }
     else
-    await this.router.navigate([`/web/dashboard`])
+      await this.router.navigate([`/web/dashboard`])
   }
 
   observeAuthenticatedUser() {
@@ -84,12 +84,12 @@ export class AppComponent {
 
   private async navigateToPage(page: number) {
     let navigationUrl: string[] = []
-    if (this.userService.isMobile){
+    if (this.userService.isMobile) {
       navigationUrl = ['/login']
       this.logUserOut()
     }
     else
-      navigationUrl = this.mapNumberToWebPageUrl(page)  
+      navigationUrl = this.mapNumberToWebPageUrl(page)
     await this.router.navigate(navigationUrl)
   }
 
@@ -101,15 +101,6 @@ export class AppComponent {
       navigationUrl = ['/web/newDish']
     return navigationUrl
   }
-
-/*   private mapNumberToMobilePageUrl(page: number): string[] {
-    let 
-    if (page == MenuPage.menu.valueOf())
-      navigationUrl = ['/mobile/tabs/restaurant']
-    if (page == MenuPage.newdish.valueOf())
-      navigationUrl = ['/mobile/tabs/profile']
-    return navigationUrl
-  } */
 
 
 }
