@@ -5,6 +5,7 @@ import { User } from 'src/app/interfaces/user';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
+import { UserRepo } from 'src/app/pages/login/userRepo';
 
 
 
@@ -23,7 +24,7 @@ export class UserService {
   isLoggedIn: boolean = false;
   isAsRestourant: boolean = false;
   authMode: AuthMode = AuthMode.logIn;
-  currentUser: User;
+  //currentUser: User;
   public isMobile: boolean;
 
 
@@ -44,6 +45,7 @@ export class UserService {
     private httpClient: HttpClient,
     private router: Router,
     private storage: StorageService,
+    private userRepo: UserRepo
   ) {
 
   }
@@ -81,101 +83,29 @@ export class UserService {
     return true
   }
 
-  logIn(email: string, password: string) {
-    console.log(`email -> ${email}`)
-    console.log(`password -> ${password}`)
-    let body = {
-      "db": "Food",
-      "queries": [
-        {
-          "query": "spUsersAzur",
-          "params": {
-            "action": "login",
-            "email": `${email}`,
-            "password": `${password}`
-            /*    "email": "vedran.prpic1@gmail.com",
-               "password": "lozinka" */
-          }
-        }
-      ]
-    }
-    this.httpClient.post(this.url, body)
-      .subscribe(async (response: Array<User>) => {
-        console.log(`on Next, response -> ${response[0]}`)
-        if (response.length == 1) {
-          this.isLoggedIn = true
-          this.currentUser = response[0]
-          this._currentUser.next(response[0])
-          await this.router.navigate([`/${this.isMobile ? "mobile/tabs" : "web"}/dashboard`])
-          /*    this.router.navigate(
-               ['web/dashboard'], 
-               {
-               replaceUrl : true,
-             }) */
-        }
+  async logIn(email: string, password: string) {
+    let response: User = await this.userRepo.logIn(email, password)
 
-        await this.storage.setData("user", response[0])
-
-      }, error => {
-        console.log("on error")
-      }, () => {
-        console.log("on complete")
-      })
-  }
-
-  signUp(username: string, email: string, password: string, restourantName: string) {
-
-    let body = {
-      "db": "Food",
-      "queries": [
-        {
-          "query": "spUsersAzur",
-          "params": {
-            "action": "insert",
-            "name": username,
-            "email": email,
-            "password": password
-          }
-        }
-      ]
-    }
-
-    return this.httpClient.post(this.url, body)
-      .subscribe((res: any) => {
-        if (res.length > 0) {
-          console.log(res[0].userid)
-          if (!this.isAsRestourant)
-            return
-          this.currentUser = res[0]
-          let userId = res[0].userid
-          this.registerRestoraunt(restourantName, userId)
-        }
-      })
+    this.isLoggedIn = true
+    console.log(`LOGGED IN -> ${response}`)
+    this._currentUser.next(response)
+    await this.storage.setData("user", response)
+    await this.router.navigate([`/${this.isMobile ? "mobile/tabs" : "web"}/dashboard`])
 
   }
 
-  private registerRestoraunt(companyName: string, userId: number) {
+  async signUp(username: string, email: string, password: string, restourantName: string) {
 
-    let body = {
-      "db": "Food",
-      "queries": [
-        {
-          "query": "spCompanyAzur",
-          "params": {
-            "action": "insert",
-            "name": companyName,
-            "status": 1,
-            "userid": userId
-          }
-        }
-      ]
-    }
-    console.log("Registering restaurant...")
-    this.httpClient.post(this.url, body).subscribe((res: Array<User>) => {
-      console.log("Registered !")
-    });
+
+    let response = await this.userRepo.signUp(username, email, password, restourantName)
+    if (this.isAsRestourant)
+      await this.userRepo.registerRestoraunt(restourantName, response.userid)
+    await this.logIn(email,password)  //Register restaurant ne vraca restaurant id, tak da ne mogu dodat novog usera odmah jer mi treba njegov companyId. Log in vraca cijelog usera, koji bi nakon dodavanja firme sa njegovim userId-om trebao u bazi imati dobar companyId
+
 
   }
+
+
 
 }
 

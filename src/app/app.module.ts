@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { UserRepo } from './pages/login/userRepo';
 
 
 
@@ -41,6 +42,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
       registrationStrategy: 'registerWhenStable:30000'
     })],
   providers: [
+    UserRepo,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ViewDidEnter, ViewWillEnter } from '@ionic/angular';
 import { Dish } from 'src/app/interfaces/dish';
 import { MobileDish } from 'src/app/interfaces/mobileMenu';
 import { Order } from 'src/app/interfaces/order';
@@ -13,7 +14,7 @@ import { OrderFilter } from 'src/app/util/orderFilter';
   templateUrl: './restaurant.page.html',
   styleUrls: ['./restaurant.page.scss'],
 })
-export class RestaurantPage implements OnInit {
+export class RestaurantPage implements OnInit,ViewDidEnter {
 
 
 
@@ -32,13 +33,21 @@ export class RestaurantPage implements OnInit {
 
   }
 
-
-  ngOnInit() {
-   console.log("RESTAURANT INIT")
+  ionViewDidEnter(): void {
+    console.log("ionViewDidEnter")
     this.setRestourant()
     this.subscribeToAllDishesInCart()
     this.onDayChanged()
   }
+
+
+  ngOnInit() {
+   console.log("RESTAURANT INIT")
+   this.setRestourant()
+   this.subscribeToAllDishesInCart()
+   this.onDayChanged()
+  }
+
 
   private setRestourant() {
     this.route.queryParams.subscribe((queryParams) => {

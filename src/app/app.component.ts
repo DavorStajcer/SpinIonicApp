@@ -48,10 +48,10 @@ export class AppComponent {
   private async onUserAuthenticated() {
     this.isLoggedIn = true
     if (this.isMobile) {
-      await this.storage.getData(`${this.userService._currentUser.value.userId}` + 'cart')
+     /*  await this.storage.getData(`${this.userService._currentUser.value.userid}` + 'cart')
         .then((orders) => {
           this.cartService.dishesInCart.next(orders || [])
-        })
+        }) */
       await this.router.navigate([`/mobile/tabs/dashboard`])
     }
     else
@@ -70,7 +70,6 @@ export class AppComponent {
     if (this.userAuthSubscription == null)
       this.observeAuthenticatedUser()
     await this.router.navigate(['/login'])
-
   }
 
   openMenu() {
@@ -83,13 +82,13 @@ export class AppComponent {
   }
 
   private async navigateToPage(page: number) {
-    let navigationUrl: string[] = []
+ /*    let navigationUrl: string[] = []
     if (this.userService.isMobile) {
       navigationUrl = ['/login']
       this.logUserOut()
     }
-    else
-      navigationUrl = this.mapNumberToWebPageUrl(page)
+    else */
+    let navigationUrl = this.mapNumberToWebPageUrl(page)
     await this.router.navigate(navigationUrl)
   }
 
