@@ -22,40 +22,37 @@ export class DashboardPage implements OnInit {
   public searchTerm : string
 
   constructor(
-    private router : Router,
     private restaurantService : RestourantService,
     ) { 
-    this.restaurantService.orders.subscribe((orders : Array<Order>) => {
-        this.fetchedOrders = orders
-        this.ordersForCurrentDay = OrderFilter.mapOrdersToDay(orders,this.daysStringCro[this.currentDay])
-        this.ordersForCurrentDay.forEach((order)=>{
-          console.log(order)
-        }) 
-        this.filteredOrders = OrderFilter.filterOrdersForSearchTerm(this.ordersForCurrentDay,this.searchTerm)
-    })
+      this.observeOrdersChange()
   }
-
-  searchEventFired(search : any){
-    console.log(search)
-    let searchTerm = search.target.value
-    console.log(searchTerm)
-    this.searchTerm = searchTerm
-    this.filteredOrders = OrderFilter.filterOrdersForSearchTerm(this.ordersForCurrentDay,this.searchTerm)
-  }
-
 
   ngOnInit() {
     
   }
 
+  private observeOrdersChange(){
+    this.restaurantService.orders.subscribe((orders : Array<Order>) => {
+      this.fetchedOrders = orders
+      this.setOrders()
+  })
+  }
+
+  searchEventFired(search : any){
+    let searchTerm = search.target.value
+    this.searchTerm = searchTerm
+    this.filteredOrders = OrderFilter.filterOrdersForSearchTerm(this.ordersForCurrentDay,this.searchTerm)
+  }
+
+
   onDayChanged(day : number){
     this.currentDay = day
+    this.setOrders()
+  }
+
+  private setOrders(){
     this.ordersForCurrentDay = OrderFilter.mapOrdersToDay(this.fetchedOrders,this.daysStringCro[this.currentDay])
     this.filteredOrders = OrderFilter.filterOrdersForSearchTerm(this.ordersForCurrentDay,this.searchTerm)
-    this.ordersForCurrentDay.forEach((order)=>{
-      console.log(order)
-    }) 
-      console.log(`Day got in dashboard -> ${day}`)
   }
 
 }

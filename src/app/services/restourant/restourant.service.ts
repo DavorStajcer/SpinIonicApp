@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from '../user/user.service';
 import { Order } from 'src/app/interfaces/order';
 import { BehaviorSubject } from 'rxjs';
-import { Menu } from 'src/app/interfaces/menu';
 import { Dish } from 'src/app/interfaces/dish';
 import { OrderFilter } from 'src/app/util/orderFilter';
 import { Restaurant } from 'src/app/interfaces/restaurant';
@@ -12,6 +11,7 @@ import { MobileDish } from 'src/app/interfaces/mobileMenu';
 import { StorageService } from '../storage/storage.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MobileOrder } from 'src/app/interfaces/mobileOrder';
+import { MenuDish } from 'src/app/interfaces/menu';
 
 
 
@@ -28,16 +28,14 @@ export class RestourantService {
     private firebaseStorage: AngularFireStorage,
   ) {
 
-    /*   this.filteredOrders.subscribe((newFilteredOrders)=>{
-        this.orders.next(newFilteredOrders)
-      }) */
+
   }
 
   url: string = "https://jupitermobiletest.jupiter-software.com:30081/jupitermobilex/gen/api/food"
 
 
   orders: BehaviorSubject<Array<Order>> = new BehaviorSubject(null)
-  menus: BehaviorSubject<Array<Menu>> = new BehaviorSubject(null)
+  menu: BehaviorSubject<Array<MenuDish>> = new BehaviorSubject(null)
   restaurants: BehaviorSubject<Array<Restaurant>> = new BehaviorSubject(null)
   allOrders: Array<Order>
   allUserOrders: BehaviorSubject<Array<Order>> = new BehaviorSubject(null)
@@ -65,10 +63,7 @@ export class RestourantService {
   ])
 
 
-  /*   onDishesSearchTermChnaged(searchTerm : string){
-     if(searchTerm == undefined ||searchTerm == null || searchTerm == "")
- 
-   } */
+
 
   async onRestaurantClicked(companyId: number) {
     await this.storage.setData("restaurantId", companyId)
@@ -121,10 +116,9 @@ export class RestourantService {
 
 
 
-
-  onMenuChanged() {
+  onMenuChanged(menu: Array<MenuDish>) {
     for (let i = 0; i < 5; i++) {
-      let currentDayMenu = OrderFilter.mapMenuToDay(this.menus.value, i)
+      let currentDayMenu = OrderFilter.mapMenuToDay(menu, i)
       let dishesInMenu = OrderFilter.mapMenuToDishes(currentDayMenu, this.dishes)
       this.dayDishesInMenu.get(i).next(dishesInMenu)
       let dishesNotInMenu = OrderFilter.filterChosenDishes(this.dishes, dishesInMenu)
@@ -134,7 +128,6 @@ export class RestourantService {
 
 
   async addNewDish(name: string, description: string, imageUrl: string) {
-
 
     let body = {
       "db": "Food",
@@ -247,6 +240,7 @@ export class RestourantService {
 
 
   initRestaurantForCompanyUser() {
+
     let body = {
       "db": "Food",
       "queries": [
@@ -262,15 +256,15 @@ export class RestourantService {
           "query": "spMenu",
           "params": {
             "action": "week",
-            "companyid": this.userService.getUserCompany()
+            "companyid": this.userService.getUserCompany() //Get menu for week and company, list of MenuMeal items
           },
-          "tablename": "menus"
+          "tablename": "menu"
         },
         {
           "query": "spDishMenu",
           "params": {
             "action": "dish",
-            "companyid": this.userService.getUserCompany()
+            "companyid": this.userService.getUserCompany() //All dishes for company
           },
           "tablename": "dishes"
         }
@@ -278,29 +272,28 @@ export class RestourantService {
       ]
     }
 
-
-    let promisesToResolve: Promise<any>[] = []
-
-
     return this.httpClient.post(this.url, body)
       .toPromise()
       .then(async (result: any) => {
         this.orders.next(result.orders)
-        this.menus.next(result.menus)
+        this.menu.next(result.menu)
         this.dishes = result.dishes
-        this.dishes.forEach(dish => {
-          let promise = this.mapImageToDish(dish)
-          promisesToResolve.push(promise)
-        })
-        this.orders.value.forEach(order => {
-          let promise = this.mapImageToOrder(order)
-          promisesToResolve.push(promise)
-        })
-        await Promise.all(promisesToResolve)
-        return result.orders as Array<Order>
+        this.setImagesOnDishesAndOrders()
       })
 
+  }
 
+  private async setImagesOnDishesAndOrders() {
+    let promisesToResolve: Promise<any>[] = []
+    this.dishes.forEach(dish => {
+      let promise = this.mapImageToDish(dish)
+      promisesToResolve.push(promise)
+    })
+    this.orders.value.forEach(order => {
+      let promise = this.mapImageToOrder(order)
+      promisesToResolve.push(promise)
+    })
+    await Promise.all(promisesToResolve)
   }
 
   async mapImageToDish(dish: Dish) {
@@ -310,9 +303,9 @@ export class RestourantService {
     try {
       imageUrl = await this.firebaseStorage.ref(`images/${companyId}${userId}${dish.Name}`).getDownloadURL().toPromise()
     } catch (e) {
-      console.log(e)
+      //Nothing
     } finally {
-      if (imageUrl)
+      if (imageUrl != null && imageUrl != undefined)
         dish.imageUrl = imageUrl
     }
   }
@@ -330,6 +323,7 @@ export class RestourantService {
         dish.imageUrl = imageUrl
     }
   }
+
   async mapImageToOrder(order: Order) {
     let userId = this.userService._currentUser.value.userId
     let companyId = this.userService._currentUser.value.companyId
@@ -385,7 +379,6 @@ export class RestourantService {
           (response: {
             restaurants: Restaurant[],
             menus: MobileDish[],
-            //  orders: Order[]
           }) => {
             console.log("INITIALIZING ORDERS")
             if (response.restaurants.length > 0 && response.menus.length > 0) {
@@ -393,42 +386,39 @@ export class RestourantService {
                 companyId: restorant.companyId,
                 name: restorant.name,
                 menus: [1, 2, 3, 4, 5].map((day: number) => {
-                  /*    return response.menus.filter((menu: MobileMenu) => {
-                      let isForThisRestaurantAndDay = day == menu.day && menu.companyId == restorant.companyId
-                      return isForThisRestaurantAndDay
-                     }) */
                   let restaurantMenus: MobileDish[] = []
-
                   response.menus.forEach((menu: MobileDish) => {
                     if (menu.inCart == undefined || menu.inCart == null)
                       menu.inCart = false
                     if (day == menu.day && menu.companyId == restorant.companyId)
                       restaurantMenus.push(menu)
-
-
                   })
                   return restaurantMenus
                 }),
                 image: ""
               }))
 
-              restourants.forEach(restaurant => {
-                restaurant.menus.forEach(async mobileDishes => {
-                  let promisesToResolve = []
-                  mobileDishes.forEach(mobileDish => {
-                    let promise = this.mapImageToMobileDish(mobileDish)
-                    promisesToResolve.push(promise)
-
-                  })
-                  await Promise.all(promisesToResolve)
-                })
-              })
+              this.putImagesOnDishesInMenus(restourants)
               this.restaurants.next(restourants)
-
             }
           }
         )
       ).toPromise()
+
+  }
+
+  private putImagesOnDishesInMenus(restourants: Restaurant[]) {
+    restourants.forEach(restaurant => {
+      restaurant.menus.forEach(async mobileDishes => {
+        let promisesToResolve = []
+        mobileDishes.forEach(mobileDish => {
+          let promise = this.mapImageToMobileDish(mobileDish)
+          promisesToResolve.push(promise)
+
+        })
+        await Promise.all(promisesToResolve)
+      })
+    })
 
   }
 

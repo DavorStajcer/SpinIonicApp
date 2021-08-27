@@ -15,7 +15,6 @@ export enum AuthMode {
 }
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -24,9 +23,8 @@ export class UserService {
   isLoggedIn: boolean = false;
   isAsRestourant: boolean = false;
   authMode: AuthMode = AuthMode.logIn;
-  //currentUser: User;
   public isMobile: boolean;
-
+  
 
   _currentUser: BehaviorSubject<User> = new BehaviorSubject(null)
 
@@ -39,10 +37,7 @@ export class UserService {
   }
 
 
-  private url: string = "https://jupitermobiletest.jupiter-software.com:30081/jupitermobilex/gen/api/food"
-
   constructor(
-    private httpClient: HttpClient,
     private router: Router,
     private storage: StorageService,
     private userRepo: UserRepo
@@ -96,12 +91,10 @@ export class UserService {
 
   async signUp(username: string, email: string, password: string, restourantName: string) {
 
-
     let response = await this.userRepo.signUp(username, email, password, restourantName)
     if (this.isAsRestourant)
       await this.userRepo.registerRestoraunt(restourantName, response.userid)
-    await this.logIn(email,password)  //Register restaurant ne vraca restaurant id, tak da ne mogu dodat novog usera odmah jer mi treba njegov companyId. Log in vraca cijelog usera, koji bi nakon dodavanja firme sa njegovim userId-om trebao u bazi imati dobar companyId
-
+    await this.logIn(email, password)  //Register restaurant ne vraca restaurant id, tak da ne mogu dodat novog usera odmah jer mi treba njegov companyId. Log in vraca cijelog usera, koji bi nakon dodavanja firme sa njegovim userId-om trebao u bazi imati dobar companyId
 
   }
 

@@ -18,13 +18,13 @@ export class LoginPage implements OnInit {
   username: string
   email: string
   password: string
-  isAsRestaurant : boolean = false
+  isAsRestaurant: boolean = false
 
-  isSingUp : boolean 
+  isSingUp: boolean
   auhtModeText: string
   changeAuthModeText: string
 
-
+  isLoading = false
 
   constructor
     (
@@ -33,13 +33,16 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.mapAuthModeToUi()
-  } 
+  }
 
 
-  authenticate() {
+  async authenticate() {
+    this.isLoading
+    await new Promise(resolve => setTimeout(resolve, 1000))
     this.userService.authMode == AuthMode.logIn
-      ? this.userService.logIn(this.email, this.password)
-      : this.userService.signUp(this.username, this.email, this.password, this.restourantName)
+      ? await this.userService.logIn(this.email, this.password)
+      : await this.userService.signUp(this.username, this.email, this.password, this.restourantName)
+    this.isLoading = false
   }
 
   changeAuthMode() {
@@ -47,15 +50,15 @@ export class LoginPage implements OnInit {
     this.mapAuthModeToUi()
   }
 
-  private mapAuthModeToUi(){
+  private mapAuthModeToUi() {
     this.isSingUp = this.userService.isSignUp
-    if(!this.isSingUp)
+    if (!this.isSingUp)
       this.isAsRestaurant = false
     this.auhtModeText = this.userService.mapAuthModeToAuthButtonString()
     this.changeAuthModeText = this.userService.mapAuthModeToString()
   }
 
-  onIsAsRestaurantChanged(){
+  onIsAsRestaurantChanged() {
     this.userService.isAsRestourant = this.isAsRestaurant
     console.log(this.isAsRestaurant)
   }

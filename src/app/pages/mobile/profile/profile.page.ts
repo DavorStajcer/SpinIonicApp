@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Order } from 'src/app/interfaces/order';
+import { Photo } from 'src/app/interfaces/photo';
 import { RestourantService } from 'src/app/services/restourant/restourant.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -13,12 +14,17 @@ export class ProfilePage implements OnInit {
 
   public userOrders: Array<Order> = []
 
-  public userName : string = " "
+  public userName: string = " "
+/*   public profilePhoto: Photo = {
+    filepath: "slikica",
+    webviewPath: "assets/images/meal.png"
+  } */
+  public profilePhoto: string =  "assets/images/meal.png"
 
   constructor(
     private restaurantService: RestourantService,
     private userService: UserService,
-    private router : Router,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -29,7 +35,7 @@ export class ProfilePage implements OnInit {
   }
 
 
-  onOrdersTabClicked(){
+  onOrdersTabClicked() {
     console.log("Order tab clicked.")
     this.router.navigate(["../mobile/orders"])
   }

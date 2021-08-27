@@ -1,6 +1,6 @@
 
 import { Dish } from "../interfaces/dish";
-import { Menu } from "../interfaces/menu";
+import { MenuDish } from "../interfaces/menu";
 import { MobileOrder } from "../interfaces/mobileOrder";
 import { Order } from "../interfaces/order";
 import { User } from "../interfaces/user";
@@ -16,7 +16,7 @@ import { User } from "../interfaces/user";
         return modifiedOrders
     }
 
-    public static mapMenuToDay(menus : Array<Menu>,day : number){
+    public static mapMenuToDay(menus : Array<MenuDish>,day : number){
         let modifiedOrders = []
         menus.forEach((menu)=>{
             if(menu.day == day + 1)
@@ -25,7 +25,7 @@ import { User } from "../interfaces/user";
         return modifiedOrders
     }
 
-    public static mapMenuToDishes(menus : Array<Menu>,dishes : Array<Dish>){
+    public static mapMenuToDishes(menus : Array<MenuDish>,dishes : Array<Dish>){
         let dishesFromMenu : Dish[] = []
         menus.forEach((menu)=>{
             dishes.forEach((dish) => {

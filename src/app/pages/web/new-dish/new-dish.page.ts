@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RestourantService } from 'src/app/services/restourant/restourant.service';
-import { Camera, CameraOptions } from '@ionic-native/Camera/ngx';
-import { PictureSourceType } from '@ionic-native/camera';
-import { File } from '@ionic-native/file/ngx';
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { UserService } from 'src/app/services/user/user.service';
+import { PicturesRepo } from './picturesRepo';
 
 @Component({
   selector: 'app-new-dish',
@@ -27,7 +24,7 @@ export class NewDishPage implements OnInit {
   constructor(
     private restaurantService: RestourantService,
     private router: Router,
-    private firebaseStorage: AngularFireStorage,
+    private picturesRepo: PicturesRepo,
     private userService: UserService,
   ) { }
 
@@ -36,8 +33,8 @@ export class NewDishPage implements OnInit {
 
   onNameChanged(event: any) {
     console.log(event.target.value)
-    let dishName : string = event.target.value
-    if (dishName == undefined || dishName == null || dishName == " " || dishName === "" )
+    let dishName: string = event.target.value
+    if (dishName == undefined || dishName == null || dishName == " " || dishName === "" || this.imageUrl == undefined || this.imageUrl == null)
       this.isSaveDisabled = true
     else
       this.isSaveDisabled = false
@@ -48,14 +45,14 @@ export class NewDishPage implements OnInit {
       let userId = this.userService._currentUser.value.userId
       let companyId = this.userService._currentUser.value.companyId
       let fileToUpload = this.selectedFile[0]
-      this.imageUrl = await this.uploadPicture(`${companyId}${userId}${this.name}`, fileToUpload)
-      await this.restaurantService.addNewDish(this.name, this.description,this.imageUrl)
+      this.imageUrl = await this.picturesRepo.uploadWebPicture(`${companyId}${userId}${this.name}`, fileToUpload)
+      await this.restaurantService.addNewDish(this.name, this.description, this.imageUrl)
     }
-    await this.router.navigate(["/web/menu"])
+    this.onCancel()
   }
 
-  onCancel() {
-    this.router.navigate(["/web/menu"])
+  async onCancel() {
+    await this.router.navigate(["/web/menu"])
   }
 
   async changeListener(event: any) {
@@ -67,18 +64,15 @@ export class NewDishPage implements OnInit {
     let userId = this.userService._currentUser.value.userId
     let companyId = this.userService._currentUser.value.companyId
     let fileToUpload = this.selectedFile[0]
-    this.imageUrl = await this.uploadPicture(`${companyId}${userId}`, fileToUpload)
+    this.imageUrl = await this.picturesRepo.uploadWebPicture(`${companyId}${userId}`, fileToUpload)
+    if (this.name == undefined || this.name == null || this.name == " " || this.name === "" || this.imageUrl == undefined || this.imageUrl == null)
+      this.isSaveDisabled = true
+    else
+      this.isSaveDisabled = false
     console.log(`GOT IMAGE URL -> ${this.imageUrl}`)
   }
 
-  async uploadPicture(childFirebasePath: string, file: any): Promise<string> {
-    try {
-      const task = await this.firebaseStorage.ref('/images').child(childFirebasePath).put(file)
-      return this.firebaseStorage.ref(`images/${childFirebasePath}`).getDownloadURL().toPromise()
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
 
 
 

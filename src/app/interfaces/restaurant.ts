@@ -1,4 +1,4 @@
-import { Menu } from "./menu";
+import { MenuDish } from "./menu";
 import { MobileDish } from "./mobileMenu";
 
 export interface Restaurant {

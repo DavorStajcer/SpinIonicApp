@@ -14,7 +14,7 @@ import { OrderFilter } from 'src/app/util/orderFilter';
   templateUrl: './restaurant.page.html',
   styleUrls: ['./restaurant.page.scss'],
 })
-export class RestaurantPage implements OnInit,ViewDidEnter {
+export class RestaurantPage implements OnInit, ViewDidEnter {
 
 
 
@@ -42,10 +42,10 @@ export class RestaurantPage implements OnInit,ViewDidEnter {
 
 
   ngOnInit() {
-   console.log("RESTAURANT INIT")
-   this.setRestourant()
-   this.subscribeToAllDishesInCart()
-   this.onDayChanged()
+    console.log("RESTAURANT INIT")
+    this.setRestourant()
+    this.subscribeToAllDishesInCart()
+    this.onDayChanged()
   }
 
 
@@ -56,7 +56,7 @@ export class RestaurantPage implements OnInit,ViewDidEnter {
           this.restaurant = restaurant
       })
     })
- 
+
   }
 
   private subscribeToAllDishesInCart() {
@@ -71,7 +71,7 @@ export class RestaurantPage implements OnInit,ViewDidEnter {
 
   setIsInCartProperty() {
     this.dishesForCurrentDay.forEach((dish) => {
-      dish.inCart = !!this.cartService.dishesInCart.value?.find((dishInCart) => dishInCart.day == this.restaurantService.currentDay + 1 && dishInCart.dishId == dish.dishId) 
+      dish.inCart = !!this.cartService.dishesInCart.value?.find((dishInCart) => dishInCart.day == this.restaurantService.currentDay + 1 && dishInCart.dishId == dish.dishId)
     })
   }
 
@@ -84,13 +84,13 @@ export class RestaurantPage implements OnInit,ViewDidEnter {
     let didPutInCart = this.cartService.modifyCart(clickedMobileMenu)
     console.log(`Did put in cart -> ${didPutInCart}`)
     clickedMobileMenu.inCart = didPutInCart
-    //this.restaurantService.onMobileMenuClicked(clickedMobileMenu)
   }
 
   onDayChanged(day?: number) {
-    if(this.restaurant == undefined ||this.restaurant == null)
+    if (this.restaurant == undefined || this.restaurant == null)
       return
-    this.restaurantService.currentDay = day || 0
+    if (day != null && day != undefined)
+      this.restaurantService.currentDay = day
     this.dishesForCurrentDay = this.restaurant.menus[this.restaurantService.currentDay]
     this.setIsInCartProperty()
   }

@@ -1,41 +1,42 @@
-
 <ion-content>
 
-  <ion-img class="logo center" src="/assets/images/logo.png"></ion-img>
 
-  <ion-item class="input center" [hidden]="!isAsRestaurant">
+  <ion-spinner [hidden]="!isLoading"  style="width: 15%;height: 15%;" name="crescent"></ion-spinner>
+  <ion-img [hidden]="isLoading" class="logo center" src="/assets/images/logo.png"></ion-img>
+
+  <ion-item [hidden] ="isLoading" class="input center" [hidden]="!isAsRestaurant">
     <ion-label position="floating">Restourant name</ion-label>
     <ion-input [(ngModel)]="restourantName"></ion-input>
   </ion-item>
 
-  <ion-item class="input center" [hidden] = "!isSingUp">
+  <ion-item [hidden]="isLoading" class="input center" [hidden]="!isSingUp">
     <ion-label position="floating">Username</ion-label>
     <ion-input [(ngModel)]="username"></ion-input>
   </ion-item>
 
-  <ion-item class="input center">
+  <ion-item [hidden]="isLoading" class="input center">
     <ion-label position="floating">Email</ion-label>
     <ion-input [(ngModel)]="email"></ion-input>
   </ion-item>
 
-  <ion-item class="input center">
+  <ion-item [hidden]="isLoading" class="input center">
     <ion-label position="floating">Password</ion-label>
     <ion-input [(ngModel)]="password"></ion-input>
   </ion-item>
 
 
-  <ion-item class="center toggleButton" [hidden] = "!isSingUp" >
+  <ion-item [hidden]="isLoading" class="center toggleButton" [hidden]="!isSingUp">
     <ion-label>As restaurant</ion-label>
-<!--     <ion-toggle [(ngModel)]="userService.isAsRestourant" ></ion-toggle> -->
+    <!--     <ion-toggle [(ngModel)]="userService.isAsRestourant" ></ion-toggle> -->
     <ion-toggle [(ngModel)]="isAsRestaurant" (ionChange)="onIsAsRestaurantChanged($event)"></ion-toggle>
   </ion-item>
 
 
-  <div class="centerButton">
+  <div [hidden]="isLoading" class="centerButton">
     <ion-button (click)="authenticate()">{{auhtModeText}}</ion-button>
   </div>
   <br>
-  <div class="centerButton">
+  <div [hidden]="isLoading" class="centerButton">
     <ion-button color="light" class="authModeButton" (click)="changeAuthMode()">{{changeAuthModeText}}</ion-button>
   </div>
 

@@ -1,46 +1,35 @@
 <ion-content>
 
-  <div style="
-  height: 10%;
-  width: 100%;
-  text-align: center;
-  display: grid;
-  vertical-align:bottom;
-  ">
-    <h4>My Profile
-    </h4>
-  </div>
+  <div class="profile">My Profile</div>
 
-  <div style="height: 30%;width: 100%;text-align: center;">
-    <!--     <div class="input-circle" (click)="onSelectImage()">
-      <ion-icon style="margin-top: 41px;" name="person-outline"></ion-icon>
-    </div> -->
+  <div style="width: 100%;text-align: center;">
 
-    <ion-avatar style="height: 200px;width:200px;margin: auto;">
-      <img src="assets/images/meal.png" style="border-radius: 50%;overflow: hidden; box-shadow: 0 0 5px green;display: block;">
+    <ion-avatar class="avatar">
+      <ion-img [src]="profilePhoto" class="picture">
+      </ion-img>
     </ion-avatar>
   </div>
 
   <div style="padding-left: 5%;padding-right: 5%;">
     <ion-list>
-      <div  style="height: 7%; width: 100%;text-align: center;margin-bottom: 20px;color:green;">
-        <div style="text-align: center;height: 100%;">{{userName}}</div>
+      <div class="titleParent">
+        <div class="title">{{userName}}</div>
       </div>
       <ion-item>
-        <div (click)="onOrdersTabClicked()" style="height: 5%; width: 100%;display: flex;justify-content: space-between;">
-          <div style="text-align: center;height: 100%;">My orders</div>
+        <div (click)="onOrdersTabClicked()"class="listItem">
+          <div  class="listTitle">My orders</div>
           <ion-icon name="arrow-forward-outline"></ion-icon>
         </div>
       </ion-item>
       <ion-item>
-        <div style="height: 5%; width: 100%;display: flex;justify-content: space-between;">
-          <div style="text-align: center;height: 100%;">My payment cards</div>
+        <div class="listItem">
+          <div class="listTitle">My payment cards</div>
           <ion-icon name="arrow-forward-outline"></ion-icon>
         </div>
       </ion-item>
       <ion-item>
-        <div style="height: 5%; width: 100%;display: flex;justify-content: space-between;">
-          <div style="text-align: center;height: 100%;">My adress</div>
+        <div class="listItem">
+          <div  class="listTitle">My adress</div>
           <ion-icon name="arrow-forward-outline"></ion-icon>
         </div>
       </ion-item>

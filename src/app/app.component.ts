@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Event, NavigationStart, Router } from '@angular/router';
 import { MenuController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { CartService } from './services/cart/cart.service';
@@ -22,6 +22,7 @@ export class AppComponent {
   public isLoggedIn: boolean
   public isMobile: boolean
   private userAuthSubscription: Subscription = null
+  isMenuHidden = true
 
 
   constructor(
@@ -33,11 +34,30 @@ export class AppComponent {
     private cartService: CartService,
   ) {
     this.onInitApp()
+
+
+
+  }
+
+  private setCurrentPlatform() {
+    this.userService.isMobile = this.platform.is("mobileweb") || this.platform.is("mobile")
+    this.isMobile = this.userService.isMobile
+  }
+
+  private observeMenuVisibility = () => {
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        if (event.url == "/login")
+          this.isMenuHidden = true
+        else
+          this.isMenuHidden = false
+      }
+    });
   }
 
   async onInitApp() {
-    this.userService.isMobile = this.platform.is("mobileweb") || this.platform.is("mobile")
-    this.isMobile = this.userService.isMobile
+    this.setCurrentPlatform()
+    this.observeMenuVisibility()
     if (await this.userService.isUserAuthenticated())
       await this.onUserAuthenticated()
     else
@@ -48,10 +68,6 @@ export class AppComponent {
   private async onUserAuthenticated() {
     this.isLoggedIn = true
     if (this.isMobile) {
-     /*  await this.storage.getData(`${this.userService._currentUser.value.userid}` + 'cart')
-        .then((orders) => {
-          this.cartService.dishesInCart.next(orders || [])
-        }) */
       await this.router.navigate([`/mobile/tabs/dashboard`])
     }
     else
@@ -82,12 +98,6 @@ export class AppComponent {
   }
 
   private async navigateToPage(page: number) {
- /*    let navigationUrl: string[] = []
-    if (this.userService.isMobile) {
-      navigationUrl = ['/login']
-      this.logUserOut()
-    }
-    else */
     let navigationUrl = this.mapNumberToWebPageUrl(page)
     await this.router.navigate(navigationUrl)
   }

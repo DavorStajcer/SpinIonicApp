@@ -23,26 +23,15 @@
           <ion-button style="flex-grow: 1;" (click)="onCancel()">CANCEL</ion-button>
         </div>
       </div>
-      <!--      <ion-input type="file" accept=".jpg, .png, .jpeg" name="inputFile" (ionChange)="changeListener($event)"> -->
       <div style="width: 50%; text-align: center;">
         <div class="center" style="height: 150px;width: 150px;border: 2px solid; margin-bottom: 15px;">
           <img class="center" style="height: 100%;width: 100%;" [src]="imageUrl" [hidden]="!imageUrl">
         </div>
         <input class="center" type="file" accept=".jpg, .png, .jpeg" name="inputFile" (change)="changeListener($event)" required>
       </div>
-      <!--       <div class="input-circle" >
-        <ion-icon style="margin-top: 41px;" name="person-outline"></ion-icon>
-      </div> -->
+
     </div>
 
-    <!--     <div style="width: 50%; padding-top: 10px;">
-      <div style="display: flex;text-align: end;">
-        <div style="flex-grow: 1;">
-        </div>
-        <ion-button style="flex-grow: 1;" (click)="onSaveDish()">SAVE</ion-button>
-        <ion-button style="flex-grow: 1;" (click)="onCancel()">CANCEL</ion-button>
-      </div>
-    </div> -->
   </div>
 
 

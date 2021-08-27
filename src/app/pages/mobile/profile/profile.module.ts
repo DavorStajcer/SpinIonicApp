@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
+import { PicturesRepo } from '../../web/new-dish/picturesRepo';
 
 @NgModule({
   imports: [

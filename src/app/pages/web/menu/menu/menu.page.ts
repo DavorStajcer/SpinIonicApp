@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Dish } from 'src/app/interfaces/dish';
-import { Menu } from 'src/app/interfaces/menu';
-import { Order } from 'src/app/interfaces/order';
+import { MenuDish } from 'src/app/interfaces/menu';
 import { RestourantService } from 'src/app/services/restourant/restourant.service';
 import { OrderFilter } from 'src/app/util/orderFilter';
 
@@ -37,10 +36,10 @@ export class MenuPage implements OnInit {
   }
 
   private observeMenus() {
-    this.restaurantService.menus.subscribe((menus: Array<Menu>) => {
-      this.restaurantService.onMenuChanged()
+    this.restaurantService.menu.subscribe((menu: Array<MenuDish>) => {
+      this.restaurantService.onMenuChanged(menu)
     })
-  }
+  } 
 
   observeDishes(){
     this.notMenuDishesSubscription = this.restaurantService.dayDishesNotInMenu.get(this.restaurantService.currentDay).subscribe((dishes : Array<Dish>)=> {

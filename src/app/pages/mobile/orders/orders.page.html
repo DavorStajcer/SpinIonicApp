@@ -6,24 +6,17 @@
 
   <div style="padding-right: 5%;padding-left: 5%;padding-top: 5%;height: 100%;">
 
-    <div style="height: 3%;display: flex;flex-direction: row;">
-      <button style="height: 30px;
-      width: 5%; background-color: white;
-      text-align: center;"
+    <div style="height: 10%;display: flex;flex-direction: row;">
+      <button class="backButton"
        (click)="onBackNavClicked()">
         <ion-icon name="arrow-back-outline" style="height: 27px;width: 27px;"></ion-icon>
       </button>
-      <div style="width: 100%; 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-      font-size:larger"> 
+      <div class="profile"> 
         Your orders
       </div>
     </div>
 
-    <div style="height: 95%;width: 100%;overflow-y: auto;">
+    <div style="height: 90%;width: 100%;overflow-y: auto;">
       <ion-grid>
         <ion-row>
           <ion-col size=6 *ngFor="let order of userOrders">

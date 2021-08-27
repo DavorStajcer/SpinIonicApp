@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { AngularFireStorageModule } from "@angular/fire/storage";
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { PicturesRepo } from './picturesRepo';
 
 
 @NgModule({
@@ -27,9 +28,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
   ],
   providers: [
     File,
-    Camera,
     ImagePicker,
-    AngularFirestore
+    AngularFirestore,
+    PicturesRepo
     
   ],
   declarations: [NewDishPage, SideNavComponent]
